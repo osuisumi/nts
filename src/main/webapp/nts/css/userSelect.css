@@ -1,0 +1,117 @@
+/*输入框样式*/
+
+.userSelect .u-ipt {
+	background-color: rgb(255, 255, 255);
+	border-bottom-color: rgb(192, 193, 197);
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-image-outset: 0px;
+	border-image-repeat: stretch;
+	border-image-slice: 100%;
+	border-image-source: none;
+	border-image-width: 1;
+	border-left-color: rgb(192, 193, 197);
+	border-left-style: solid;
+	border-left-width: 1px;
+	border-right-color: rgb(192, 193, 197);
+	border-right-style: solid;
+	border-right-width: 1px;
+	border-top-color: rgb(192, 193, 197);
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	border-top-style: solid;
+	border-top-width: 1px;
+	box-shadow: rgba(0, 0, 0, 0.0470588) 1px 1.7px 4px 1px inset;
+	box-sizing: content-box;
+	color: rgb(35, 41, 58);
+	cursor: auto;
+	display: inline-block;
+	font-family: 微软雅黑;
+	font-size: 14px;
+	font-stretch: normal;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	left: -9px;
+	letter-spacing: normal;
+	line-height: 18px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-top: 0px;
+	outline-color: rgb(82, 195, 126);
+	outline-style: none;
+	outline-width: 0px;
+	padding-bottom: 6px;
+	padding-left: 8px;
+	padding-right: 8px;
+	padding-top: 6px;
+	position: relative;
+	text-align: start;
+	text-indent: 0px;
+	text-rendering: auto;
+	text-shadow: none;
+	text-transform: none;
+	width: 500px;
+	word-spacing: 0px;
+	writing-mode: horizontal-tb;
+	-webkit-appearance: none;
+	-webkit-rtl-ordering: logical;
+	-webkit-user-select: text;
+}
+
+.userSelect .u-add-tag{
+	cursor: hand;
+}
+
+
+
+.userSelect  .l-slt-lst {
+    top: 36px;
+    right: auto;
+    left: 0;
+    width: 210px;
+}
+
+.userSelect .l-slt-lst {
+    padding: 5px 0;
+    max-height: 150px;
+    overflow: auto;
+}
+
+.userSelect  .l-slt-lst a {
+    height: 30px;
+    line-height: 30px;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    display: block;
+    text-align: center;
+    color: #4e4e51;
+}
+
+.userSelect .l-slt-lst a:hover{
+      background-color: #f4f4f4;
+      color: #52c37e;
+}
+
+ .labelLi{
+    display: inline-block;
+    float: left;
+    margin-right: 6px;
+    margin-top: 5px;
+    padding: 0 8px;
+    height: 18px;
+    line-height: 18px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    background: #f7f7f7;
+    border: 1px solid #ebebeb;
+    cursor: default;
+    color: #a0a0a0;
+}

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.haoyu.nts.department.dao.impl.mybatis.DepartmentNtsMapper" >
+  	<resultMap id="BaseResultMap" type="com.haoyu.nts.department.entity.DepartmentExtend" >
+	    <id column="ID" property="id" jdbcType="VARCHAR" />
+	    <result column="DEPTNAME" property="deptName" jdbcType="VARCHAR" />
+	    <result column="DEPTCODE" property="deptCode" jdbcType="VARCHAR" />
+	    <result column="DEPTTYPE" property="deptType" jdbcType="VARCHAR" />
+	 	<result column="IMAGEURL" property="imageUrl" jdbcType="VARCHAR" />
+	    <result column="STAGE" property="stage" jdbcType="VARCHAR" />
+	    <result column="WEBSITE" property="website" jdbcType="VARCHAR" />
+	    <result column="CREATE_TIME" property="createTime" jdbcType="DECIMAL" />
+		<result column="CREATOR" property="creator.id" jdbcType="VARCHAR" />
+		<result column="UPDATETIME" property="updateTime" jdbcType="DECIMAL" />
+		<result column="UPDATEDBY" property="updatedby.id" jdbcType="VARCHAR" />
+		<result column="PARENT_ID" property="parentDepartment.id" jdbcType="VARCHAR" />
+		
+		<result column="PROVINCE_CODE" property="province.regionsCode"/>
+		<result column="CITY_CODE" property="city.regionsCode"/>
+		<result column="COUNTIES_CODE" property="counties.regionsCode" />
+  	</resultMap>
+	
+  	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+		select
+		  D.ID ID,
+		  D.DEPT_NAME DEPTNAME,
+		  D.DEPT_CODE DEPTCODE,
+		  D.DEPT_TYPE DEPTTYPE,
+		  D.IMAGE_URL IMAGEURL,
+		  D.STAGE STAGE,
+		  D.WEBSITE WEBSITE,
+		  D.PARENT_ID PARENT_ID,
+		  D.PROVINCE PROVINCE_CODE,
+		  D.CITY CITY_CODE,
+		  D.COUNTIES COUNTIES_CODE
+		from
+			DEPARTMENT D
+		where
+			D.IS_DELETED = 'N' and D.ID = #{id,jdbcType=VARCHAR}
+  	</select>
+  	
+  	<select id="selectByParameter" resultMap="BaseResultMap" parameterType="map">
+  		select
+		  	D.ID ID,
+		  	D.DEPT_NAME DEPTNAME,
+		  	D.DEPT_CODE DEPTCODE,
+		  	D.DEPT_TYPE DEPTTYPE,
+		  	D.IMAGE_URL IMAGEURL,
+		  	D.STAGE STAGE,
+		  	D.WEBSITE WEBSITE,
+		  	D.PARENT_ID PARENT_ID,
+			D.CREATE_TIME,
+		  	D.PROVINCE PROVINCE_CODE,
+		  	D.CITY CITY_CODE,
+		  	D.COUNTIES COUNTIES_CODE
+		from
+			DEPARTMENT D
+		where D.IS_DELETED = 'N'
+ 		<if test="deptNameEquals != null and deptNameEquals != ''">
+			and D.DEPT_NAME = #{deptNameEquals}
+		</if>
+		<if test="deptName != null and deptName != ''">
+			and D.DEPT_NAME like '%${deptName}%'  
+		</if>
+		<if test="deptType != null and deptType != ''">
+			and D.DEPT_TYPE = #{deptType,jdbcType=VARCHAR}
+		</if>
+  	</select>
+  	
+  	<update id="updateByPrimaryKey" parameterType="com.haoyu.nts.department.entity.DepartmentExtend">
+	  	update DEPARTMENT
+	  	<set>
+	      <if test="deptName != null and deptName!=''" >
+	        DEPT_NAME = #{deptName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="deptCode != null and deptCode!=''" >
+	        DEPT_CODE = #{deptCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="deptType != null and deptType!=''" >
+	        DEPT_TYPE = #{deptType,jdbcType=VARCHAR},
+	      </if>
+	      <if test="imageUrl != null and imageUrl!=''" >
+	        IMAGE_URL = #{imageUrl,jdbcType=VARCHAR},
+	      </if>
+	      <if test="stage != null and stage!=''" >
+	        STAGE = #{stage,jdbcType=VARCHAR},
+	      </if>
+	      <if test="website != null and website!=''" >
+	        WEBSITE = #{website,jdbcType=VARCHAR},
+	      </if>
+	      <if test="updatedby != null" >
+	        UPDATEDBY = #{updatedby.id,jdbcType=VARCHAR},
+	      </if>
+	      <if test="updateTime != null" >
+	        UPDATE_TIME = #{updateTime,jdbcType=BIGINT},
+	      </if>
+	      <if test="parentDepartment != null and parentDepartment.id != ''" >
+	        PARENT_ID = #{parentDepartment.id,jdbcType=VARCHAR},
+	      </if>
+	      <if test="province != null and province.regionsCode != ''" >
+	        PROVINCE = #{province.regionsCode,jdbcType=VARCHAR},
+	      </if>	 
+	      <if test="city != null and city.regionsCode != ''" >
+	        CITY = #{city.regionsCode,jdbcType=VARCHAR},
+	      </if>	 
+	      <if test="counties != null and counties.regionsCode != ''" >
+	        COUNTIES = #{counties.regionsCode,jdbcType=VARCHAR},
+	      </if>	 	      
+	      VERSION = VERSION+1
+	    </set>
+	    where ID = #{id,jdbcType=VARCHAR}
+    </update>
+  	
+  	<insert id="insert" parameterType="com.haoyu.nts.department.entity.DepartmentExtend">
+		insert into DEPARTMENT 
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="deptName != null" >
+				DEPT_NAME,
+			</if>
+			<if test="deptCode != null">
+				DEPT_CODE,
+			</if>
+			<if test="deptType != null">
+				DEPT_TYPE,
+			</if>
+			<if test="imageUrl != null">
+				IMAGE_URL,
+			</if>
+			<if test="stage != null">
+				STAGE,
+			</if>
+			<if test="website != null">
+				WEBSITE,
+			</if>
+			<if test="creator != null and creator.id != null">
+				CREATOR,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updatedby != null and updatedby.id != null">
+				UPDATEDBY,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="isDeleted != null">
+				IS_DELETED,
+			</if>
+			<if test="version != null">
+				VERSION,
+			</if>
+			<if test="province != null and province.regionsCode != null and province.regionsCode != ''">
+				PROVINCE,
+			</if>
+			<if test="city != null and city.regionsCode != null and city.regionsCode != ''">
+				CITY,
+			</if>
+			<if test="counties != null and counties.regionsCode != null and counties.regionsCode != ''">
+				COUNTIES
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="deptName != null">
+				#{deptName,jdbcType=VARCHAR},
+			</if>
+			<if test="deptCode != null">
+				#{deptCode,jdbcType=VARCHAR},
+			</if>
+			<if test="deptType != null">
+				#{deptType,jdbcType=VARCHAR},
+			</if>
+			<if test="imageUrl != null">
+				#{imageUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="stage != null">
+	    		#{stage,jdbcType=VARCHAR},
+	    	</if>
+	    	<if test="website != null">
+	    		#{website,jdbcType=VARCHAR},
+	    	</if>
+			<if test="creator != null and creator.id != null">
+				#{creator.id,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=BIGINT},
+			</if>
+			<if test="updatedby != null and updatedby.id != null">
+				#{updatedby.id,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=INTEGER},
+			</if>
+			<if test="isDeleted != null">
+				#{isDeleted,jdbcType=VARCHAR},
+			</if>
+			<if test="version != null">
+				#{version,jdbcType=DECIMAL},
+			</if>
+			<if test="province != null and province.regionsCode != null and province.regionsCode != ''">
+				#{province.regionsCode,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null and city.regionsCode != null and city.regionsCode != ''">
+				#{city.regionsCode,jdbcType=VARCHAR},
+			</if>
+			<if test="counties != null and counties.regionsCode != null and counties.regionsCode != ''">
+				#{counties.regionsCode,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+</mapper>

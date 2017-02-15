@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haoyu.nts.course.dao.impl.mybatis.CourseStatBizMapper">
+	<resultMap id="BaseResultMap" type="com.haoyu.nts.course.entity.CourseStatExtend">
+		<id column="ID" property="department.id" jdbcType="VARCHAR"/>
+		
+		<result column="DEPT_NAME" property="department.deptName" jdbcType="VARCHAR"/>
+		<result column="PARENT_DEPT_NAME" property="department.parentDepartment.deptName" jdbcType="VARCHAR"/>
+		<result column="GRANT_PARENT_DEPT_NAME" property="department.parentDepartment.parentDepartment.deptName" jdbcType="VARCHAR"/>
+
+
+		<result column="FAQ_QUESTION_NUM" property="faqQuestionNum" jdbcType="INTEGER" />
+		<result column="FAQ_ANSWER_NUM" property="faqAnswerNum" jdbcType="INTEGER" />
+		<result column="NOTE_NUM" property="noteNum" jdbcType="INTEGER" />
+		<result column="RESOURCE_NUM" property="resourceNum" jdbcType="INTEGER" />
+		<result column="DISCUSSION_NUM" property="discussionNum" jdbcType="INTEGER" />
+
+		<!-- 课程活动数量 -->
+		<result column="ACTIVITY_VIDEO_NUM" property="activityVideoNum" jdbcType="INTEGER" />
+		<result column="ACTIVITY_DISCUSSION_NUM" property="activityDiscussionNum" jdbcType="INTEGER" />
+		<result column="ACTIVITY_TEST_NUM" property="activityTestNum" jdbcType="INTEGER" />
+		<result column="ACTIVITY_ASSIGNMENT_NUM" property="activityAssignmentNum" jdbcType="INTEGER" />
+		<result column="ACTIVITY_HTML_NUM" property="activityHtmlNum" jdbcType="INTEGER" />
+		<result column="ACTIVITY_SURVEY_NUM" property="activitySurveyNum" jdbcType="INTEGER" />
+
+		<!-- 课程活动完成人数统计 -->
+		<result column="COMPLETE_VIDEO_NUM" property="completeVideoNum" jdbcType="INTEGER" />
+		<result column="COMPLETE_DISCUSSION_NUM" property="completeDiscussionNum" jdbcType="INTEGER" />
+		<result column="COMPLETE_TEST_NUM" property="completeTestNum" jdbcType="INTEGER" />
+		<result column="COMPLETE_ASSIGNMENT_NUM" property="completeAssignmentNum" jdbcType="INTEGER" />
+		<result column="COMPLETE_HTML_NUM" property="completeHtmlNum" jdbcType="INTEGER" />
+		<result column="COMPLETE_SURVEY_NUM" property="completeSurveyNum" jdbcType="INTEGER" />
+
+		<result column="REGISTER_NUM" property="registerNum" jdbcType="INTEGER" />
+		<result column="QUALIFIED_NUM" property="qualifiedNum" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<select id="school" resultMap="BaseResultMap" parameterType="map">
+		select D.ID,D.DEPT_NAME
+		<!--课程内容统计 -->
+		,(select count(FQ.ID) from FAQ_QUESTION FQ join BASE_USER_VIEW BUV on BUV.ID = FQ.CREATOR where FQ.IS_DELETED = 'N' and FQ.RELATION_ID = #{courseId} and BUV.DEPT_ID = D.ID) as FAQ_QUESTION_NUM
+		,(select count(FA.ID) from FAQ_ANSWER FA join FAQ_QUESTION FQ on FQ.ID = FA.QUESTION_ID and FA.IS_DELETED = 'N' and FQ.IS_DELETED = 'N' join BASE_USER_VIEW BUV on BUV.ID = FA.CREATOR where FQ.RELATION_ID = #{courseId} and BUV.DEPT_ID = D.ID) as FAQ_ANSWER_NUM
+		,(select count(N.ID) from NOTE N join BASE_USER_VIEW BUV on BUV.ID = N.CREATOR where N.IS_DELETED = 'N' and BUV.DEPT_ID = D.ID and  N.RELATION_ID in (select ID from SECTION where IS_DELETED='N' and COURSE_ID = #{courseId})) as NOTE_NUM
+		,(select count(R.ID) from RESOURCES R join RESOURCE_RELATION RR on R.ID = RR.RESOURCE_ID and R.IS_DELETED = 'N' join BASE_USER_VIEW BUV on BUV.ID = R.CREATOR where BUV.DEPT_ID = D.ID and RR.RELATION_ID in(select ID from SECTION where IS_DELETED='N' and COURSE_ID = #{courseId})) as RESOURCE_NUM
+		,(select count(D.ID) from DISCUSSION D join BASE_USER_VIEW BUV on BUV.ID = D.CREATOR join DISCUSSION_RELATION DR on DR.DISCUSSION_ID = D.ID where BUV.DEPT_ID = D.ID and D.IS_DELETED = 'N' and DR.RELATION_ID = #{courseId}) as DISCUSSION_NUM
+		<!-- 课程活动完成人数统计 -->
+		,(select count(AR.ID) from ACTIVITY_RESULT AR join BASE_USER_VIEW BUV on BUV.ID = AR.CREATOR join ACTIVITY A on A.ID = AR.ACTIVITY_ID and A.IS_DELETED = 'N' and AR.IS_DELETED = 'N' and A.TYPE='video' where BUV.DEPT_ID = D.ID and AR.RELATION_ID = #{courseId} and AR.STATE = 'complete' ) COMPLETE_VIDEO_NUM
+		,(select count(AR.ID) from ACTIVITY_RESULT AR join BASE_USER_VIEW BUV on BUV.ID = AR.CREATOR join ACTIVITY A on A.ID = AR.ACTIVITY_ID and A.IS_DELETED = 'N' and AR.IS_DELETED = 'N' and A.TYPE='discussion' where BUV.DEPT_ID = D.ID and AR.RELATION_ID = #{courseId} and AR.STATE = 'complete' ) COMPLETE_DISCUSSION_NUM
+		,(select count(AR.ID) from ACTIVITY_RESULT AR join BASE_USER_VIEW BUV on BUV.ID = AR.CREATOR join ACTIVITY A on A.ID = AR.ACTIVITY_ID and A.IS_DELETED = 'N' and AR.IS_DELETED = 'N' and A.TYPE='test' where BUV.DEPT_ID = D.ID and AR.RELATION_ID = #{courseId} and AR.STATE = 'complete' ) COMPLETE_TEST_NUM
+		,(select count(AR.ID) from ACTIVITY_RESULT AR join BASE_USER_VIEW BUV on BUV.ID = AR.CREATOR join ACTIVITY A on A.ID = AR.ACTIVITY_ID and A.IS_DELETED = 'N' and AR.IS_DELETED = 'N' and A.TYPE='assignment' where BUV.DEPT_ID = D.ID and AR.RELATION_ID = #{courseId} and AR.STATE = 'complete' ) COMPLETE_ASSIGNMENT_NUM
+		,(select count(AR.ID) from ACTIVITY_RESULT AR join BASE_USER_VIEW BUV on BUV.ID = AR.CREATOR join ACTIVITY A on A.ID = AR.ACTIVITY_ID and A.IS_DELETED = 'N' and AR.IS_DELETED = 'N' and A.TYPE='html' where BUV.DEPT_ID = D.ID and AR.RELATION_ID = #{courseId} and AR.STATE = 'complete' ) COMPLETE_HTML_NUM
+		,(select count(AR.ID) from ACTIVITY_RESULT AR join BASE_USER_VIEW BUV on BUV.ID = AR.CREATOR join ACTIVITY A on A.ID = AR.ACTIVITY_ID and A.IS_DELETED = 'N' and AR.IS_DELETED = 'N' and A.TYPE='survey' where BUV.DEPT_ID = D.ID and AR.RELATION_ID = #{courseId} and AR.STATE = 'complete' ) COMPLETE_SURVEY_NUM
+		
+		,(select count(CR.ID) from COURSE_REGISTER CR join BASE_USER_VIEW BUV on BUV.ID = CR.USER_ID where BUV.DEPT_ID = D.ID and CR.IS_DELETED = 'N' and CR.COURSE_ID = #{courseId} and CR.STATE='pass') as REGISTER_NUM
+		,(select count(CRE.ID) from COURSE_RESULT CRE join BASE_USER_VIEW BUV on BUV.ID = CRE.USER_ID  where BUV.DEPT_ID = D.ID and CRE.IS_DELETED = 'N' and CRE.COURSE_ID = #{courseId} and CRE.STATE = 'pass') QUALIFIED_NUM
+		from DEPARTMENT D
+		<where>
+			<if test="deptName != null and deptName != ''">
+				and D.DEPT_NAME like concat(concat('%',#{deptName,jdbcType=VARCHAR}),'%')
+			</if>
+		</where>
+	</select>
+	
+	<select id="area" resultMap="BaseResultMap" parameterType="map">
+		select D.ID,D.REGIONS_NAME AS DEPT_NAME, VRP.REGIONS_NAME AS PARENT_DEPT_NAME,VRGP.REGIONS_NAME AS GRANT_PARENT_DEPT_NAME
+		<!--课程内容统计 -->
+		,(select count(FQ.ID) from FAQ_QUESTION FQ join BASE_USER_VIEW BUV on BUV.ID = FQ.CREATOR where FQ.IS_DELETED = 'N' and FQ.RELATION_ID = #{courseId} and BUV.COUNTIES = D.REGIONS_CODE) as FAQ_QUESTION_NUM
+		,(select count(FA.ID) from FAQ_ANSWER FA join FAQ_QUESTION FQ on FQ.ID = FA.QUESTION_ID and FA.IS_DELETED = 'N' and FQ.IS_DELETED = 'N' join BASE_USER_VIEW BUV on BUV.ID = FA.CREATOR where FQ.RELATION_ID = #{courseId} and BUV.COUNTIES = D.REGIONS_CODE) as FAQ_ANSWER_NUM
+		,(select count(N.ID) from NOTE N join BASE_USER_VIEW BUV on BUV.ID = N.CREATOR where N.IS_DELETED = 'N' and BUV.COUNTIES = D.REGIONS_CODE and  N.RELATION_ID in (select ID from SECTION where IS_DELETED='N' and COURSE_ID = #{courseId})) as NOTE_NUM
+		,(select count(R.ID) from RESOURCES R join RESOURCE_RELATION RR on R.ID = RR.RESOURCE_ID and R.IS_DELETED = 'N' join BASE_USER_VIEW BUV on BUV.ID = R.CREATOR where BUV.COUNTIES = D.REGIONS_CODE and RR.RELATION_ID in(select ID from SECTION where IS_DELETED='N' and COURSE_ID = #{courseId})) as RESOURCE_NUM
+		,(select count(D.ID) from DISCUSSION D join BASE_USER_VIEW BUV on BUV.ID = D.CREATOR join DISCUSSION_RELATION DR on DR.DISCUSSION_ID = D.ID where BUV.COUNTIES = D.REGIONS_CODE and D.IS_DELETED = 'N' and DR.RELATION_ID = #{courseId}) as DISCUSSION_NUM
+		<!-- 课程活动完成人数统计 -->
+		,(select count(AR.ID) from ACTIVITY_RESULT AR join BASE_USER_VIEW BUV on BUV.ID = AR.CREATOR join ACTIVITY A on A.ID = AR.ACTIVITY_ID and A.IS_DELETED = 'N' and AR.IS_DELETED = 'N' and A.TYPE='video' where BUV.COUNTIES = D.REGIONS_CODE and AR.RELATION_ID = #{courseId} and AR.STATE = 'complete' ) COMPLETE_VIDEO_NUM
+		,(select count(AR.ID) from ACTIVITY_RESULT AR join BASE_USER_VIEW BUV on BUV.ID = AR.CREATOR join ACTIVITY A on A.ID = AR.ACTIVITY_ID and A.IS_DELETED = 'N' and AR.IS_DELETED = 'N' and A.TYPE='discussion' where BUV.COUNTIES = D.REGIONS_CODE and AR.RELATION_ID = #{courseId} and AR.STATE = 'complete' ) COMPLETE_DISCUSSION_NUM
+		,(select count(AR.ID) from ACTIVITY_RESULT AR join BASE_USER_VIEW BUV on BUV.ID = AR.CREATOR join ACTIVITY A on A.ID = AR.ACTIVITY_ID and A.IS_DELETED = 'N' and AR.IS_DELETED = 'N' and A.TYPE='test' where BUV.COUNTIES = D.REGIONS_CODE and AR.RELATION_ID = #{courseId} and AR.STATE = 'complete' ) COMPLETE_TEST_NUM
+		,(select count(AR.ID) from ACTIVITY_RESULT AR join BASE_USER_VIEW BUV on BUV.ID = AR.CREATOR join ACTIVITY A on A.ID = AR.ACTIVITY_ID and A.IS_DELETED = 'N' and AR.IS_DELETED = 'N' and A.TYPE='assignment' where BUV.COUNTIES = D.REGIONS_CODE and AR.RELATION_ID = #{courseId} and AR.STATE = 'complete' ) COMPLETE_ASSIGNMENT_NUM
+		,(select count(AR.ID) from ACTIVITY_RESULT AR join BASE_USER_VIEW BUV on BUV.ID = AR.CREATOR join ACTIVITY A on A.ID = AR.ACTIVITY_ID and A.IS_DELETED = 'N' and AR.IS_DELETED = 'N' and A.TYPE='html' where BUV.COUNTIES = D.REGIONS_CODE and AR.RELATION_ID = #{courseId} and AR.STATE = 'complete' ) COMPLETE_HTML_NUM
+		,(select count(AR.ID) from ACTIVITY_RESULT AR join BASE_USER_VIEW BUV on BUV.ID = AR.CREATOR join ACTIVITY A on A.ID = AR.ACTIVITY_ID and A.IS_DELETED = 'N' and AR.IS_DELETED = 'N' and A.TYPE='survey' where BUV.COUNTIES = D.REGIONS_CODE and AR.RELATION_ID = #{courseId} and AR.STATE = 'complete' ) COMPLETE_SURVEY_NUM
+		
+		,(select count(CR.ID) from COURSE_REGISTER CR join BASE_USER_VIEW BUV on BUV.ID = CR.USER_ID where BUV.COUNTIES = D.REGIONS_CODE and CR.IS_DELETED = 'N' and CR.COURSE_ID = #{courseId} and CR.STATE='pass') as REGISTER_NUM
+		,(select count(CRE.ID) from COURSE_RESULT CRE join BASE_USER_VIEW BUV on BUV.ID = CRE.USER_ID  where BUV.COUNTIES = D.REGIONS_CODE and CRE.IS_DELETED = 'N' and CRE.COURSE_ID = #{courseId} and CRE.STATE = 'pass') QUALIFIED_NUM
+		from VIEW_REGIONS D
+		join VIEW_REGIONS VRP on D.PARENT_CODE = VRP.REGIONS_CODE
+		join VIEW_REGIONS VRGP on VRGP.REGIONS_CODE = VRP.PARENT_CODE
+		where D.REGIONS_LEVEL = 3
+		<if test="deptName != null and deptName != ''">
+			and D.REGIONS_NAME like concat(concat('%',#{deptName,jdbcType=VARCHAR}),'%')
+		</if>
+	</select>
+</mapper>

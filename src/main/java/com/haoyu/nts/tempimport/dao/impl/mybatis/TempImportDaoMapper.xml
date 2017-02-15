@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haoyu.nts.tempimport.dao.impl.mybatis.TempImportMapper">
+	<resultMap id="BASE_RESULT_MAP" type="com.haoyu.nts.tempimport.entity.TempImport">
+		<result column="PID" property="pid" jdbcType="VARCHAR"/>
+		<result column="FIELD_1" property="field1" jdbcType="VARCHAR"/>
+		<result column="FIELD_2" property="field2" jdbcType="VARCHAR"/>
+		<result column="FIELD_3" property="field3" jdbcType="VARCHAR"/>
+		<result column="FIELD_4" property="field4" jdbcType="VARCHAR"/>
+		<result column="FIELD_5" property="field5" jdbcType="VARCHAR"/>
+		<result column="FIELD_6" property="field6" jdbcType="VARCHAR"/>
+		<result column="FIELD_7" property="field7" jdbcType="VARCHAR"/>
+		<result column="FIELD_8" property="field8" jdbcType="VARCHAR"/>
+		<result column="FIELD_9" property="field9" jdbcType="VARCHAR"/>
+		<result column="FIELD_10" property="field10" jdbcType="VARCHAR"/>
+	</resultMap>
+	<insert id="insert" parameterType="com.haoyu.nts.tempimport.entity.TempImport">
+		insert into TEMP_IMPORT
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			PID,
+			<if test="field1 != null">FIELD_1,</if>
+			<if test="field2 != null">FIELD_2,</if>
+			<if test="field3 != null">FIELD_3,</if>
+			<if test="field4 != null">FIELD_4,</if>
+			<if test="field5 != null">FIELD_5,</if>
+			<if test="field6 != null">FIELD_6,</if>
+			<if test="field7 != null">FIELD_7,</if>
+			<if test="field8 != null">FIELD_8,</if>
+			<if test="field9 != null">FIELD_9,</if>
+			<if test="field10 != null">FIELD_10,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{pid,jdbcType=VARCHAR},
+			<if test="field1 != null">#{field1,jdbcType=VARCHAR},</if>
+			<if test="field2 != null">#{field2,jdbcType=VARCHAR},</if>
+			<if test="field3 != null">#{field3,jdbcType=VARCHAR},</if>
+			<if test="field4 != null">#{field4,jdbcType=VARCHAR},</if>
+			<if test="field5 != null">#{field5,jdbcType=VARCHAR},</if>
+			<if test="field6 != null">#{field6,jdbcType=VARCHAR},</if>
+			<if test="field7 != null">#{field7,jdbcType=VARCHAR},</if>
+			<if test="field8 != null">#{field8,jdbcType=VARCHAR},</if>
+			<if test="field9 != null">#{field9,jdbcType=VARCHAR},</if>
+			<if test="field10 != null">#{field10,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
+	
+	<delete id="deleteByPid" parameterType="java.lang.String">
+		delete from TEMP_IMPORT
+		where PID = #{pid,jdbcType=VARCHAR}
+	</delete>
+	
+</mapper>

@@ -1,0 +1,202 @@
+@charset "UTF-8";
+
+@import "_base";
+
+.m-side-bigbox{
+    position:fixed;
+    width: 54px;
+    bottom:20px;
+    right:20px;
+}
+
+.m-side-qq{
+    position: relative;
+    margin-bottom: 8px;
+    width:54px;
+    height:54px;
+    @include radius(4px,true);
+    text-align:center;
+    cursor:pointer;
+    &:hover{
+        .txt {
+            top: 0;
+        }
+        .icon-lt{
+            top:-54px;
+        }
+        .ESQ-box{
+            display:inline-block;
+        }
+    }
+    .side-qq{
+        display: block;
+        overflow: hidden;
+        position: relative;
+        width: 100%;
+        height: 54px;
+        @include radius(4px,true);
+    }
+}
+.m-side-qq,.m-side-Totop{
+    .txt {
+        display: block;
+        top: 54px;
+        padding-top: 10px;
+        width: 100%;
+        height: 44px;
+        background-color:lighten(nth($theme-color,1),6%) ;
+        line-height: 18px;
+        text-align: center;
+        font-size: 14px;
+        color: #fff;
+        border-radius:0 0 4px 4px;
+        position: absolute;
+        left: 0;
+        -webkit-transition: top .5s;
+        -moz-transition: top .5s;
+        -ms-transition: top .5s;
+        -o-transition: top .5s;
+        transition: top .5s;
+    }
+    .icon-lt{
+        width: 100%;
+        height: 54px; 
+        background:nth($theme-color,1);
+        position:absolute;
+        left:0;
+        top:0; 
+        border-radius:4px 4px 0 0;  
+        -webkit-transition: top .5s;
+        -moz-transition: top .5s;
+        -ms-transition: top .5s;
+        -o-transition: top .5s;
+        transition: top .5s        
+    }
+}
+.u-qq-ico{
+    width:28px;
+    height:31px;
+    display:inline-block;
+    background:url(images/side-qq.png) 0 0 no-repeat;
+    position:relative;
+    top:10px;
+}
+.ESQ-box{
+    padding:22px;
+    display:none;
+    background:#fff;
+    border:1px solid rgba(0,0,0,0.12);
+    @include radius(4px,true);
+    position:absolute;
+    right:0;
+    bottom:54px;
+    text-align:center;
+    h3{
+        margin: 0;
+        font-size: 14px;
+        color:#27292b;
+        font-weight: bold;
+        padding-bottom:18px;
+        width:149px;
+        
+    }
+}
+.ESQ-list {
+    padding: 0; margin: 0;
+    list-style: none;
+    li {
+        list-style: 0 none;
+    }
+}
+.ESQ-block{
+    padding-bottom:13px;
+    position:relative;
+    &:hover{
+        .call{
+            background:nth($theme-color,1);
+            color:#fff;
+            .u-lit-qq{
+                background-position:-34px 0px;
+            }             
+        }
+    }
+    .call{
+        text-align:center;
+        line-height: 37px;
+        @include radius(4px,true);
+        border:1px solid nth($theme-color,1);
+        width:147px;
+        font-size: 14px;
+        color:nth($theme-color,1);
+    }
+    .u-lit-qq{
+        width:17px;
+        height:20px;
+        display:inline-block;
+        background:url(images/side-qq.png) 0 0 no-repeat;
+        position:relative;
+        top:4px;
+        background-position:0 -35px;
+    }
+    .call-qq{
+        width:149px;
+        height:39px;
+        display:inline-block;
+        position:absolute;
+        left:0;
+        top:0;
+        @include opacity(0);
+
+    }
+}
+.ESQ-block-no{
+    .call{
+        color:#979c95;
+    }
+    .u-lit-qq{
+        background-position:-20px -35px;
+    }
+    &:hover{
+        .call{
+            background:#979c95;
+            color:#fff;
+            border-color:#979c95;            
+        }
+    }
+}
+//side totop
+.m-side-Totop{
+    position: relative;
+    width:54px;
+    height:54px;
+    @include radius(4px,true);
+    text-align:center;
+    cursor:pointer; 
+    overflow:hidden;
+    a{
+        width:100%;
+        height:100%;
+        display:block;
+        overflow:hidden;
+
+    }
+    .icon-lt{
+        background:#979c95;
+    }
+    &:hover{
+        .txt {
+            top: 0;
+        }
+        .icon-lt{
+            top:-54px;
+        }
+    }
+    .t-ico{
+       width:24px;
+       height:26px;
+       background:url(images/m-side-Totop.png) no-repeat;
+       display:inline-block;
+       position:relative;
+       top:14px;
+    }
+}

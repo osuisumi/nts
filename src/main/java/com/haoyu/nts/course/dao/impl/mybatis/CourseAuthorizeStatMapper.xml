@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haoyu.nts.course.dao.impl.mybatis.CourseAuthorizeStatMapper">
+	<resultMap id="BaseResultMap" type="com.haoyu.nts.course.entity.CourseAuthorizeStat">
+		<id column="ID" property="courseAuthorize.id" jdbcType="VARCHAR" />
+		<result column="REAL_NAME" property="courseAuthorize.user.realName" jdbcType="VARCHAR" />
+		<result column="ROLE" property="courseAuthorize.role" jdbcType="VARCHAR" />
+		<result column="TRAIN_NAME" property="train.name" jdbcType="VARCHAR" />
+		<result column="COURSE_TITLE" property="course.title" jdbcType="VARCHAR"/>
+		<result column="COURSE_REGISTER_NUM" property="courseRegisterNum" jdbcType="INTEGER" />
+		<result column="COURSE_SUBMIT_ASSIGNMENT_NUM" property="courseSubmitAssignmentNum" jdbcType="INTEGER" />
+		<result column="COURSE_QUALIFIED_NUM" property="courseQualifiedNum" jdbcType="INTEGER" />
+		<result column="UPLOAD_RESOURCE_NUM" property="uploadResourceNum" jdbcType="INTEGER" />
+		<result column="FAQ_ANSWER_NUM" property="faqAnswerNum" jdbcType="INTEGER" />
+		<result column="MARKED_ASSIGNMENT_NUM" property="markedAssignmentNum" jdbcType="INTEGER" />
+	</resultMap>
+
+	<select id="select" resultMap="BaseResultMap" parameterType="map">
+		select CA.ID,CA.ROLE,BUV.REAL_NAME,T.NAME TRAIN_NAME,C.TITLE COURSE_TITLE
+		,(select count(CR.ID) from COURSE_REGISTER CR where CR.COURSE_ID = CA.COURSE_ID and CR.IS_DELETED = 'N') COURSE_REGISTER_NUM
+		,(select count(CRE.ID) from COURSE_RESULT CRE where CRE.COURSE_ID = CA.COURSE_ID and CRE.IS_DELETED = 'N' and CRE.STATE = 'pass') COURSE_QUALIFIED_NUM
+		,(select count(AU.ID) from ASSIGNMENT_USER AU join ASSIGNMENT_RELATION AR on AU.ASSIGNMENT_RELATION_ID = AR.ID and AR.IS_DELETED = 'N' where AU.IS_DELETED = 'N' and AR.RELATION_ID = CA.COURSE_ID) COURSE_SUBMIT_ASSIGNMENT_NUM
+		,(select count(AM.ID) from ASSIGNMENT_MARK AM join ASSIGNMENT_USER AU on AU.IS_DELETED = 'N' and  AU.ID = AM.ASSIGNMENT_USER_ID  join ASSIGNMENT_RELATION AR on AR.IS_DELETED = 'N' and AU.ASSIGNMENT_RELATION_ID = AR.ID where AR.RELATION_ID = CA.COURSE_ID and AM.IS_DELETED = 'N' and AM.USER_ID = CA.USER_ID) MARKED_ASSIGNMENT_NUM
+		,(select count(FA.ID) from FAQ_ANSWER FA join FAQ_QUESTION FQ on FA.QUESTION_ID = FQ.ID and FQ.IS_DELETED = 'N' where FA.IS_DELETED = 'N' and FQ.RELATION_ID = CA.COURSE_ID) FAQ_ANSWER_NUM
+		,(select count(R.ID) from RESOURCES R join RESOURCE_RELATION RR on RR.RESOURCE_ID = R.ID and RR.IS_DELETED = 'N' where R.IS_DELETED = 'N' and RR.RELATION_ID = CA.COURSE_ID) UPLOAD_RESOURCE_NUM
+		from COURSE_AUTHORIZE CA
+		join BASE_USER_VIEW BUV on CA.USER_ID = BUV.ID
+		join COURSE C on C.ID = CA.COURSE_ID and C.IS_DELETED = 'N'
+		join COURSE_RELATION CR on CR.COURSE_ID = C.ID and CR.IS_DELETED = 'N'
+		join TRAIN T on T.ID = CR.RELATION_ID and T.IS_DELETED = 'N'
+		where CA.IS_DELETED = 'N'
+		<if test="role != null and role != ''">
+			and CA.ROLE = #{role,jdbcType=VARCHAR}
+		</if>
+		<if test="realName != null and realName != ''">
+			and BUV.REAL_NAME like concat(concat('%',#{realName,jdbcType=VARCHAR}),'%')
+		</if>
+		<if test="trainName != null and trainName != ''">
+			and T.NAME like concat(concat('%',#{trainName,jdbcType=VARCHAR}),'%')
+		</if>
+		
+	</select>
+
+</mapper>

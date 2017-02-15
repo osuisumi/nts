@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haoyu.nts.index.dao.impl.mybatis.NtsIndexMapper">
+	<resultMap id="UserAuthorizeResultMap" type="com.haoyu.nts.index.entity.UserBizAuthorize">
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="ROLE" property="role" jdbcType="VARCHAR" />
+		<result column="TYPE" property="type" jdbcType="VARCHAR" />
+		<result column="STATE" property="state" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="selectUserAuthorize" resultMap="UserAuthorizeResultMap" parameterType="map">
+		SELECT CR.COURSE_ID id,CR.STATE,'course_study' ROLE,'course' TYPE FROM COURSE_REGISTER CR WHERE CR.USER_ID=#{userId,jdbcType=VARCHAR} AND CR.IS_DELETED='N' AND CR.STATE='pass'
+		UNION ALL
+		SELECT CR.COURSE_ID id,CR.STATE,'preview' ROLE ,'course' TYPE FROM COURSE_REGISTER CR WHERE STATE='preview' AND CR.USER_ID=#{userId,jdbcType=VARCHAR} AND CR.IS_DELETED='N'
+		UNION ALL
+		select CA.COURSE_ID id,CA.STATE, concat('course_',CA.ROLE),'course' TYPE from course_authorize ca WHERE CA.USER_ID=#{userId,jdbcType=VARCHAR} AND CA.IS_DELETED='N'
+		UNION ALL
+		SELECT WSU.WORKSHOP_ID id,WSU.STATE,WSU.ROLE,WS.TYPE FROM WORKSHOP_USER WSU JOIN WORKSHOP WS ON WSU.WORKSHOP_ID=WS.ID WHERE WSU.IS_DELETED='N' AND WS.IS_DELETED='N' AND WSU.USER_ID=#{userId,jdbcType=VARCHAR}
+	</select>
+
+</mapper>

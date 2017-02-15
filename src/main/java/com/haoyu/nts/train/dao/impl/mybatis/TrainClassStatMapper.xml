@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haoyu.nts.train.dao.impl.mybatis.TrainClassStatMapper">
+	<resultMap id="TrainClassStatMap" type="com.haoyu.nts.train.entity.TrainClassStat">
+		<id column="ID" property="train.id" jdbcType="VARCHAR" />
+		<result column="NAME" property="train.name" jdbcType="VARCHAR" />
+		<result column="REGISTER_NUM" property="registerNum" jdbcType="INTEGER" />
+		<result column="CLASS_NUM" property="classNum" jdbcType="INTEGER" />
+		<result column="CLASS_REGISTER_NUM" property="classRegisterNum" jdbcType="INTEGER" />
+		<association property="train.project" javaType="com.haoyu.tip.project.entity.Project">
+			<id column="PROJECT_ID" property="id" jdbcType="VARCHAR" />
+			<result column="PROJECT_NAME" property="name" jdbcType="VARCHAR" />
+			<result column="PROJECT_DESCRIPTION" property="description" jdbcType="VARCHAR" />
+		</association>
+	</resultMap>
+	<select id="select" resultMap="TrainClassStatMap" parameterType="java.util.Map">
+		select	T.ID,T.NAME,T.CREATE_TIME,P.ID PROJECT_ID,P.NAME PROJECT_NAME,
+		(select count(TR.ID) from TRAIN_REGISTER TR where TR.TRAIN_ID = T.ID and TR.STATE = 'pass' and TR.IS_DELETED = 'N') as REGISTER_NUM,
+		(select count(C.ID) from CLASS C where C.RELATION_ID = T.ID and C.IS_DELETED = 'N'),
+		(select count(TR.ID) from TRAIN_REGISTER TR join CLASS C on TR.CLASS_ID = C.ID and C.IS_DELETED = 'N' where TR.TRAIN_ID = T.ID and TR.STATE = 'pass' and TR.IS_DELETED = 'N') as CLASS_REGISTER_NUM
+		from TRAIN T
+		join PROJECT P on T.PROJECT_ID = P.ID
+		where T.IS_DELETED='N'
+		<if test="name!=null and name!=''">
+			and T.NAME like concat(concat('%',#{name,jdbcType=VARCHAR}),'%')
+		</if>
+		<if test="state!=null and state!=''">
+			and T.STATE=#{state,jdbcType=VARCHAR}
+		</if>
+		<if test="projectId != null and projectId != ''">
+			and T.PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+		</if>
+		<if test="type != null and type != ''">
+			and T.TYPE = #{type,jdbcType = VARCHAR}
+		</if>
+	</select>
+</mapper>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haoyu.nts.train.dao.impl.mybatis.TrainRegisterStatMapper">
+	<resultMap id="BaseResultMap" type="com.haoyu.nts.train.entity.TrainRegisterStat">
+		<id column="ID" property="trainRegister.id" jdbcType="VARCHAR" />
+		<result column="REAL_NAME" property="trainRegister.user.realName" jdbcType="VARCHAR" />
+		<result column="USER_ID" property="trainRegister.user.id" jdbcType="VARCHAR" />
+		<result column="DEPT_NAME" property="trainRegister.user.deptName" jdbcType="VARCHAR" />
+		<result column="PAPERWORK_NO" property="paperworkNo" jdbcType="VARCHAR" />
+		
+		<result column="COURSE_STUDY_HOURS" property="courseStudyHours" jdbcType="VARCHAR" />
+		<result column="REGISTED_COURSE_NUM" property="registedCourseNum" jdbcType="VARCHAR"/>
+		<result column="QUALIFIED_COURSE_NUM" property="qualifiedCourseNum" jdbcType="VARCHAR"/>
+		
+		<result column="WORKSHOP_STUDY_HOURS" property="workshopStudyHours" jdbcType="VARCHAR" />
+		<result column="JOIN_WORKSHOP_NUM" property="joinWorkshopNum" jdbcType="VARCHAR" />
+		<result column="QUALIFIED_WORKSHOP_NUM" property="qualifiedWorkshopNum" jdbcType="VARCHAR" />
+		
+		<result column="NEED_ASSIGNMENT_NUM" property="needAssignmentNum" jdbcType="INTEGER" />
+		<result column="ASSIGNMENT_NUM" property="assignmentNum" jdbcType="INTEGER" />
+		
+		<result column="UPLOAD_RESOURCE_NUM" property="uploadResourceNum" jdbcType="INTEGER" />
+		<result column="FAQ_QUESTION_NUM" property="faqQuestionNum" jdbcType="INTEGER" />
+		<result column="DISCUSSION_NUM" property="discussionNum" jdbcType="INTEGER" />
+		<result column="CREATE_MOVEMENT_NUM" property="createMovementNum" jdbcType="INTEGER" />
+		<result column="COMPLETE_COURSE_ACT_NUM" property="completeCourseActNum" jdbcType="INTEGER" />
+		<result column="COMPLETE_WORKSHOP_ACT_NUM" property="completeWorkshopActNum" jdbcType="INTEGER" />
+		<result column="CREATE_ACT_NUM" property="createActNum" jdbcType="INTEGER" />
+		<result column="JOIN_ACT_NUM" property="joinActNum" jdbcType="INTEGER" />
+		<result column="JOIN_MOVEMENT_NUM" property="joinMovementNum" jdbcType="INTEGER" />
+		<result column="PARTICIPATE_MOVEMENT_NUM" property="participateMovementNum" jdbcType="INTEGER" />
+		<result column="CREATE_LESSON_NUM" property="createLessonNum" jdbcType="INTEGER" />
+		<result column="PARTICIPATE_LESSON_NUM" property="participateLessonNum" jdbcType="INTEGER" />
+		<result column="CREATE_DISCUSSION_NUM" property="createDiscussionNum" jdbcType="INTEGER" />
+		<result column="MAIN_COURSE_SCORE" property="mainCourseScore" jdbcType="DECIMAL"/>
+		
+		<association property="communityRelation" javaType="com.haoyu.cmts.community.entity.CommunityRelation">
+			<id column="COMU_ID" property="id" jdbcType="VARCHAR" />
+			<result column="COMU_STATE" property="state" jdbcType="VARCHAR" />
+			<result column="COMU_SCORE" property="score" jdbcType="DECIMAL" />
+		</association>
+		<association property="communityResult" javaType="com.haoyu.cmts.community.entity.CommunityResult">
+			<result column="COMU_RE_SCORE" property="score" jdbcType="DECIMAL" />
+			<result column="COMU_RE_STATE" property="state" jdbcType="VARCHAR" />
+		</association>
+	</resultMap>
+
+	<resultMap type="com.haoyu.nts.train.entity.CourseRegisterExtend" id="courseRegisterRM">
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="RELATION_ID" property="relation.id" jdbcType="VARCHAR" />
+		<result column="STATE" property="state" jdbcType="VARCHAR" />
+		<result column="TYPE" property="type" jdbcType="VARCHAR" />
+		<result column="USER_ID" property="user.id" jdbcType="VARCHAR" />
+
+		<association property="course" javaType="com.haoyu.ncts.course.entity.Course">
+			<id column="COURSE_ID" property="id" jdbcType="VARCHAR" />
+			<result column="COURSE_TITLE" property="title" jdbcType="VARCHAR" />
+			<result column="COURSE_STUDY_HOURS" property="studyHours" jdbcType="VARCHAR" />
+		</association>
+		
+		<association property="courseResult" javaType="com.haoyu.ncts.course.entity.CourseResult">
+			<id column="COURSE_RESULT_ID" property="id" jdbcType="VARCHAR"/>
+			<result column="COURSE_RESULT_SCORE" property="score" jdbcType="DECIMAL"/>
+			<result column="COURSE_RESULT_STATE" property="state" jdbcType="VARCHAR"/>
+		</association>
+	</resultMap>
+	
+	<resultMap type="com.haoyu.ncts.course.entity.CourseStat" id="courseStatMap">
+		<id column="ID" property="course.id" jdbcType="VARCHAR" />
+		<id column="ASSIGNMENT_NUM" property="activityAssignmentNum" jdbcType="DECIMAL"/>
+	</resultMap>
+
+	<select id="select" parameterType="map" resultMap="BaseResultMap">
+			select TR.ID,
+			TR.USER_ID USER_ID,
+			BUV.REAL_NAME as REAL_NAME,
+			BUV.DEPT_ID as DEPT_ID,
+			BUV.DEPT_NAME as DEPT_NAME,
+			BUV.PAPERWORK_NO,
+			TR.CREATE_TIME,
+			<if test="getCommunityStat != null">
+				(select ID from COMMUNITY_RELATION COMU where COMU.RELATION_ID = #{trainId,jdbcType=VARCHAR}) as COMU_ID,
+				(select STATE from COMMUNITY_RELATION COMU where COMU.RELATION_ID = #{trainId,jdbcType=VARCHAR}) as COMU_STATE,
+				(select SCORE from COMMUNITY_RELATION COMU where COMU.RELATION_ID = #{trainId,jdbcType=VARCHAR}) as COMU_SCORE,
+				(select SCORE from COMMUNITY_RESULT COMU_RE where COMU_RE.RELATION_ID = #{trainId,jdbcType=VARCHAR} and COMU_RE.USER_ID = TR.USER_ID) as COMU_RE_SCORE,
+				(select STATE from COMMUNITY_RESULT COMU_RE where COMU_RE.RELATION_ID = #{trainId,jdbcType=VARCHAR} and COMU_RE.USER_ID = TR.USER_ID) as COMU_RE_STATE,
+			</if>
+			<if test="getCourseStat != null">
+				(select sum(C.STUDY_HOURS) from COURSE C where C.IS_DELETED = 'N' and C.STATE = 'pass' and exists(select 1 from COURSE_RELATION CR where CR.COURSE_ID = C.ID and CR.RELATION_ID = #{trainId,jdbcType=VARCHAR}) and exists(select 1 from COURSE_RESULT CR where CR.COURSE_ID = C.ID and CR.USER_ID = TR.USER_ID and CR.STATE = 'pass')  ) as COURSE_STUDY_HOURS,
+				(select count(CR.ID) from COURSE_REGISTER CR where CR.RELATION_ID = #{trainId,jdbcType=VARCHAR} and CR.IS_DELETED = 'N' and CR.STATE = 'pass' and CR.USER_ID = TR.USER_ID and exists(select 1 from COURSE C WHERE C.ID = CR.COURSE_ID and C.IS_DELETED = 'N')) as REGISTED_COURSE_NUM,
+				(select count(CR.ID) from COURSE_RESULT CR where CR.USER_ID = TR.USER_ID and CR.STATE = 'pass' and exists(select 1 from COURSE_RELATION CRR join COURSE C on CRR.COURSE_ID = C.ID and C.IS_DELETED = 'N' where CRR.COURSE_ID = CR.COURSE_ID and CRR.RELATION_ID = #{trainId,jdbcType=VARCHAR}) ) as QUALIFIED_COURSE_NUM,
+				(select max(CR.SCORE) from COURSE_RESULT CR where CR.USER_ID = TR.USER_ID and exists(select 1 from COURSE_RELATION CRR join COURSE C on CRR.COURSE_ID = C.ID and C.IS_DELETED = 'N' and C.TYPE = 'lead' where CRR.COURSE_ID = CR.COURSE_ID and CRR.RELATION_ID = #{trainId,jdbcType=VARCHAR}) ) as MAIN_COURSE_SCORE,
+			</if>
+			<if test="getWorkshopStat != null">
+				(select count(WU.ID) from WORKSHOP_USER WU where WU.IS_DELETED = 'N' and WU.STATE = 'passed' and WU.ROLE = 'student' and WU.USER_ID = TR.USER_ID and exists(select 1 from WORKSHOP_RELATION WR join WORKSHOP W on WR.WORKSHOP_ID = W.ID and W.IS_DELETED = 'N' where WR.RELATION_ID = #{trainId,jdbcType=VARCHAR} and WR.WORKSHOP_ID = WU.WORKSHOP_ID)) JOIN_WORKSHOP_NUM,
+				(select count(WUR.ID) from WORKSHOP_USER_RESULT WUR join WORKSHOP_USER WU on WU.ID = WUR.WORKSHOP_USER_ID join WORKSHOP W on W.ID = WU.WORKSHOP_ID and W.IS_DELETED = 'N' where WUR.WORKSHOP_RESULT in('excellent','qualified') and  WUR.POINT <![CDATA[>=]]> W.QUALIFIED_POINT and WU.USER_ID = TR.USER_ID and exists(select 1 from WORKSHOP_RELATION WR where WR.WORKSHOP_ID = W.ID and WR.RELATION_ID = #{trainId,jdbcType=VARCHAR})) QUALIFIED_WORKSHOP_NUM,
+				(select sum(W.STUDY_HOURS) from WORKSHOP W where W.IS_DELETED = 'N' and exists(select 1 from WORKSHOP_RELATION WR where WR.WORKSHOP_ID = W.ID and WR.RELATION_ID = #{trainId,jdbcType=VARCHAR}) and exists(select 1 from WORKSHOP_USER WU join WORKSHOP_USER_RESULT WUR on WUR.WORKSHOP_USER_ID = WU.ID where WUR.POINT <![CDATA[>=]]> W.QUALIFIED_POINT and  WU.USER_ID = TR.USER_ID and WU.WORKSHOP_ID = W.ID) ) as WORKSHOP_STUDY_HOURS,
+			</if>
+			((SELECT count(A.ID) FROM ACTIVITY A join SECTION S on A.RELATION_ID = S.ID join COURSE_REGISTER CRG ON S.COURSE_ID = CRG.COURSE_ID join COURSE_RELATION CR ON CR.COURSE_ID = CRG.COURSE_ID AND CR.RELATION_ID = #{trainId,jdbcType=VARCHAR} WHERE A .IS_DELETED = 'N' AND A . TYPE = 'assignment' AND CRG.IS_DELETED = 'N' AND CRG.USER_ID = TR.USER_ID)) NEED_ASSIGNMENT_NUM,
+			(select count(AU.ID) from ASSIGNMENT_USER AU where AU.CREATOR = TR.USER_ID and(AU.STATE = 'complete' or AU.STATE = 'commit') and AU.IS_DELETED = 'N' and exists(select 1 from ASSIGNMENT_RELATION AR where AR.ID = AU.ASSIGNMENT_RELATION_ID and EXISTS (select 1 from COURSE C where C.IS_DELETED = 'N' and AR.RELATION_ID = C.ID AND EXISTS(select 1 FROM COURSE_RELATION CR where CR.COURSE_ID = C.ID)))) ASSIGNMENT_NUM
+			<if test="getDetail != null and getActivityInfo != ''">
+				,(select count(FR.ID) from FILE_RESOURCE FR join FILE_RELATION FRR on FR.ID = FRR.FILE_ID and FRR.IS_DELETED = 'N' where FR.IS_DELETED = 'N' and FR.CREATOR = TR.USER_ID and FRR.RELATION_ID in(select W.ID from WORKSHOP W join WORKSHOP_RELATION WR on WR.WORKSHOP_ID = W.ID where W.IS_DELETED = 'N' and WR.RELATION_ID = TR.TRAIN_ID)) UPLOAD_RESOURCE_NUM
+				,(select count(FAQ.ID) from FAQ_QUESTION FAQ where FAQ.CREATOR = TR.USER_ID and FAQ.IS_DELETED = 'N' and FAQ.RELATION_ID in (select C.ID from COURSE C join COURSE_RELATION CR on CR.COURSE_ID = C.ID where C.IS_DELETED = 'N' and CR.RELATION_ID = TR.TRAIN_ID) or FAQ.RELATION_ID in (select W.ID from WORKSHOP W join WORKSHOP_RELATION WR on WR.WORKSHOP_ID = W.ID where W.IS_DELETED = 'N' and WR.RELATION_ID = TR.TRAIN_ID) ) FAQ_QUESTION_NUM 
+				,(select count(AR.ID) from ACTIVITY_RESULT AR where AR.IS_DELETED = 'N' and AR.CREATOR = TR.USER_ID and AR.STATE='complete' and AR.RELATION_ID in (select C.ID from COURSE C join COURSE_RELATION CR on CR.COURSE_ID = C.ID where C.IS_DELETED = 'N' and CR.RELATION_ID = TR.TRAIN_ID)) COMPLETE_COURSE_ACT_NUM
+				,(select count(AR.ID) from ACTIVITY_RESULT AR where AR.IS_DELETED = 'N' and AR.CREATOR = TR.USER_ID and AR.STATE = 'complete' and AR.RELATION_ID in (select W.ID from WORKSHOP W join WORKSHOP_RELATION WR on WR.WORKSHOP_ID = W.ID where W.IS_DELETED = 'N' and WR.RELATION_ID = TR.TRAIN_ID)) COMPLETE_WORKSHOP_ACT_NUM
+				,(select count(1) from MOVEMENT M inner join MOVEMENT_RELATION MRN on MRN.MOVEMENT_ID = M.ID and MRN.RELATION_ID = 'cmts' and MRN.RELATION_TYPE = 'movement' where M.IS_DELETED = 'N' and M.CREATOR = TR.USER_ID and exists(select 1 from COMMUNITY_RELATION CRN where CRN.IS_DELETED = 'N' and CRN.RELATION_ID = TR.TRAIN_ID and M.CREATE_TIME <![CDATA[ >= ]]> ${date_to_long_prefix} CRN.START_TIME ${date_to_long_suffix} and M.CREATE_TIME <![CDATA[ <= ]]> ${date_to_long_prefix} CRN.END_TIME ${date_to_long_suffix})) CREATE_MOVEMENT_NUM
+				,(select count(1) from MOVEMENT_REGISTER MR inner join  MOVEMENT M on M.ID = MR.MOVEMENT_ID and M.IS_DELETED = 'N' inner join MOVEMENT_RELATION MRN on MRN.MOVEMENT_ID = M.ID and MRN.RELATION_ID = 'cmts' and MRN.RELATION_TYPE = 'movement' where MR.IS_DELETED = 'N' and MR.USER_ID = TR.USER_ID and exists(select 1 from COMMUNITY_RELATION CRN where CRN.IS_DELETED = 'N' and CRN.RELATION_ID = TR.TRAIN_ID and M.CREATE_TIME <![CDATA[ >= ]]> ${date_to_long_prefix} CRN.START_TIME ${date_to_long_suffix} and M.CREATE_TIME <![CDATA[ <= ]]> ${date_to_long_prefix} CRN.END_TIME ${date_to_long_suffix})) PARTICIPATE_MOVEMENT_NUM
+				,(select count(1) from DISCUSSION D inner join DISCUSSION_RELATION DRN on DRN.DISCUSSION_ID = D.ID and DRN.RELATION_ID = 'cmts' and DRN.RELATION_TYPE = 'lesson' where D .IS_DELETED = 'N' and D .CREATOR = TR.USER_ID and exists(select 1 from COMMUNITY_RELATION CRN where CRN.IS_DELETED = 'N' and CRN.RELATION_ID = TR.TRAIN_ID and D.CREATE_TIME <![CDATA[ >= ]]> ${date_to_long_prefix} CRN.START_TIME ${date_to_long_suffix} and D.CREATE_TIME <![CDATA[ <= ]]> ${date_to_long_prefix} CRN.END_TIME ${date_to_long_suffix}) ) CREATE_LESSON_NUM
+				,(select count(1) from DISCUSSION_POST DPT inner join DISCUSSION_USER DUR on DUR. ID = DPT.DISCUSSION_USER_ID and DUR.IS_DELETED = 'N' inner join DISCUSSION_RELATION DRN on DRN. ID = DUR.DISCUSSION_RELATION_ID and DRN.IS_DELETED = 'N' and DRN.RELATION_ID = 'cmts' and DRN.RELATION_TYPE = 'lesson' inner join DISCUSSION D on D.ID = DRN.DISCUSSION_ID and D.IS_DELETED = 'N' where DPT.IS_DELETED = 'N' and exists(select 1 from COMMUNITY_RELATION CRN where CRN.IS_DELETED = 'N' and CRN.RELATION_ID = TR.TRAIN_ID and D.CREATE_TIME <![CDATA[ >= ]]> ${date_to_long_prefix} CRN.START_TIME ${date_to_long_suffix} and D.CREATE_TIME <![CDATA[ <= ]]> ${date_to_long_prefix} CRN.END_TIME ${date_to_long_suffix}) ) PARTICIPATE_LESSON_NUM
+				,(select count(1) from DISCUSSION D inner join DISCUSSION_RELATION DRN on DRN.DISCUSSION_ID = D.ID and DRN.RELATION_ID = 'cmts' and DRN.RELATION_TYPE = 'discussion' where D.IS_DELETED = 'N' and D.CREATOR = TR.USER_ID and exists(select 1 from COMMUNITY_RELATION CRN where CRN.IS_DELETED = 'N' and CRN.RELATION_ID = TR.TRAIN_ID and D.CREATE_TIME <![CDATA[ >= ]]> ${date_to_long_prefix} CRN.START_TIME ${date_to_long_suffix} and D.CREATE_TIME <![CDATA[ <= ]]> ${date_to_long_prefix} CRN.END_TIME ${date_to_long_suffix})) CREATE_DISCUSSION_NUM
+			</if>
+			from TRAIN_REGISTER TR
+			join BASE_USER_VIEW BUV  on BUV.ID = TR.USER_ID
+			where TR.IS_DELETED = 'N' 
+			<if test="realName != null and realName != ''">
+				and BUV.REAL_NAME like concat(concat('%',#{realName,jdbcType=VARCHAR}),'%')
+			</if>
+			<if test="trainRegisterId != null and trainRegisterId != ''">
+				and TR.ID = #{trainRegisterId,jdbcType=VARCHAR}
+			</if>
+			<if test="trainId != null and trainId != ''">
+				and TR.TRAIN_ID = #{trainId,jdbcType=VARCHAR}
+			</if>
+			<if test="userId != null and userId != ''">
+				and TR.USER_ID = #{userId,jdbcType=VARCHAR}
+			</if>
+			<if test="deptId != null and deptId != ''">
+				and BUV.DEPT_ID = #{deptId,jdbvType=VARCHAR}
+			</if>
+			<if test="deptName != null and deptName != ''">
+				and BUV.DEPT_NAME like concat(concat('%',#{deptName}),'%')
+			</if>
+			<if test="resultNeq != null and resultNeq != ''">
+				AND (TR.RESULT IS NULL OR TR.RESULT = '' OR TR.RESULT != #{resultNeq,jdbcType=VARCHAR})
+			</if>
+	</select>
+	
+	<select id="selectFromSimpleTable" parameterType="map" resultMap="BaseResultMap">
+			select TR.ID,
+			TR.TRAIN_ID,
+			TR.USER_ID USER_ID,
+			(select REAL_NAME from BASE_USER_VIEW BUV where BUV.ID = TR.USER_ID) as REAL_NAME,
+			(select DEPT_ID from BASE_USER_VIEW BUV where BUV.ID = TR.USER_ID) as DEPT_ID,
+			(select DEPT_NAME from BASE_USER_VIEW BUV where BUV.ID = TR.USER_ID) as DEPT_NAME,
+			(select SCORE from COMMUNITY_RESULT COMU_RE where COMU_RE.RELATION_ID = TR.TRAIN_ID and COMU_RE.USER_ID = TR.USER_ID) as COMU_RE_SCORE,
+			(select STATE from COMMUNITY_RESULT COMU_RE where COMU_RE.RELATION_ID = TR.TRAIN_ID and COMU_RE.USER_ID = TR.USER_ID) as COMU_RE_STATE,
+			(select COUNT(AU.ID) from ASSIGNMENT_USER AU where AU.CREATOR = TR.USER_ID and(AU.STATE = 'complete' or AU.STATE = 'commit') and AU.IS_DELETED = 'N' and exists(select 1 from ASSIGNMENT_RELATION AR where AR.ID = AU.ASSIGNMENT_RELATION_ID and EXISTS (select 1 from COURSE C where C.IS_DELETED = 'N' and AR.RELATION_ID = C.ID AND EXISTS(select 1 FROM COURSE_RELATION CR where CR.COURSE_ID = C.ID)))) ASSIGNMENT_NUM,
+			TR.CREATE_TIME
+			from TRAIN_REGISTER TR
+			where TR.IS_DELETED = 'N' 
+			<if test="realName != null and realName != ''">
+				and EXISTS(select 1 from BASE_USER_VIEW BUV where BUV.ID = TR.USER_ID and BUV.REAL_NAME like concat(concat('%',#{realName,jdbcType=VARCHAR}),'%'))
+			</if>
+			<if test="trainRegisterId != null and trainRegisterId != ''">
+				and TR.ID = #{trainRegisterId,jdbcType=VARCHAR}
+			</if>
+			<if test="trainId != null and trainId != ''">
+				and TR.TRAIN_ID = #{trainId,jdbcType=VARCHAR}
+			</if>
+			<if test="userId != null and userId != ''">
+				and TR.USER_ID = #{userId,jdbcType=VARCHAR}
+			</if>
+			<if test="deptId != null and deptId != ''">
+				and EXISTS(select 1 from BASE_USER_VIEW BUV where BUV.ID = TR.USER_ID and  BUV.DEPT_ID = #{deptId,jdbvType=VARCHAR})
+			</if>
+			<if test="deptName != null and deptName != ''">
+				and EXISTS(select 1 from BASE_USER_VIEW BUV where BUV.ID = TR.USER_ID and  BUV.DEPT_NAME like concat(concat('%',#{deptName}),'%'))
+			</if>
+	</select>
+	
+	<select id="countCourseAssignmentNum" parameterType="java.lang.String" resultMap="courseStatMap">
+		select C.ID,count(A.ID) as ASSIGNMENT_NUM from ACTIVITY A 
+		join SECTION S on S.IS_DELETED = 'N' and A.RELATION_ID = S.ID
+		join COURSE C on C.ID = S.COURSE_ID
+		where A.TYPE = 'assignment' and exists(select 1 from COURSE_RELATION CR where CR.COURSE_ID = C.ID and CR.RELATION_ID = #{trainId,jdbcType=VARCHAR})
+		group by C.ID
+	</select>
+
+	<select id="selectCourseRegister" parameterType="map" resultMap="courseRegisterRM">
+		select CR.ID,CRR.RELATION_ID,CR.STATE,CR.TYPE,CR.USER_ID
+		,C.ID COURSE_ID,C.TITLE COURSE_TITLE,C.STUDY_HOURS COURSE_STUDY_HOURS
+		,CRE.ID COURSE_RESULT_ID,CRE.SCORE COURSE_RESULT_SCORE,CRE.STATE COURSE_RESULT_STATE
+		from
+		COURSE_REGISTER CR join COURSE C on C.ID = CR.COURSE_ID and C.IS_DELETED = 'N'
+		left join COURSE_RELATION CRR on CRR.COURSE_ID = C.ID and CRR.IS_DELETED = 'N'
+		left join COURSE_RESULT CRE on CRE.COURSE_ID = CR.COURSE_ID and CRE.USER_ID = CR.USER_ID and CRE.IS_DELETED = 'N'
+		where CR.IS_DELETED = 'N'
+		<if test="relationIds != null">
+			and CRR.RELATION_ID in
+			<foreach collection="relationIds" open="(" close=")" item="item" separator=",">
+				#{item,jdbcType=VARCHAR}
+			</foreach>
+		</if>
+		<if test="relationId != null">
+			and CRR.RELATION_ID = #{relationId,jdbcType=VARCHAR}
+		</if>
+		<if test="deptName != null and deptName != ''">
+			and EXISTS(select 1 from BASE_USER_VIEW BUV where BUV.ID = CR.USER_ID and  BUV.DEPT_NAME like concat(concat('%',#{deptName}),'%'))
+		</if>
+		<if test="realName != null and realName != ''">
+			and EXISTS(select 1 from BASE_USER_VIEW BUV where BUV.ID = CR.USER_ID and BUV.REAL_NAME like concat(concat('%',#{realName,jdbcType=VARCHAR}),'%'))
+		</if>
+		<if test="userIds != null">
+			and CR.USER_ID in
+			<foreach collection="userIds" open="(" close=")" item="item" separator=",">
+				#{item,jdbcType=VARCHAR}
+			</foreach>
+		</if>
+	</select>
+
+</mapper>

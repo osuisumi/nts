@@ -1,0 +1,204 @@
+/*
+
+=================
+sass base style
+=================
+
+*/
+.f-cb {
+  *zoom: 1; }
+  .f-cb:before, .f-cb:after {
+    content: "";
+    display: table;
+    font: 0/0 a; }
+  .f-cb:after {
+    clear: both; }
+
+.error {
+  color: red; }
+
+.fl {
+  display: inline-block;
+  *display: inline;
+  float: left; }
+
+.fr {
+  display: inline-block;
+  *display: inline;
+  float: right; }
+
+.m-side-bigbox {
+  position: fixed;
+  width: 54px;
+  bottom: 20px;
+  right: 20px; }
+
+.m-side-qq {
+  position: relative;
+  margin-bottom: 8px;
+  width: 54px;
+  height: 54px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  text-align: center;
+  cursor: pointer; }
+  .m-side-qq:hover .txt {
+    top: 0; }
+  .m-side-qq:hover .icon-lt {
+    top: -54px; }
+  .m-side-qq:hover .ESQ-box {
+    display: inline-block; }
+  .m-side-qq .side-qq {
+    display: block;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 54px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px; }
+
+.m-side-qq .txt, .m-side-Totop .txt {
+  display: block;
+  top: 54px;
+  padding-top: 10px;
+  width: 100%;
+  height: 44px;
+  background-color: #74c054;
+  line-height: 18px;
+  text-align: center;
+  font-size: 14px;
+  color: #fff;
+  border-radius: 0 0 4px 4px;
+  position: absolute;
+  left: 0;
+  -webkit-transition: top .5s;
+  -moz-transition: top .5s;
+  -ms-transition: top .5s;
+  -o-transition: top .5s;
+  transition: top .5s; }
+.m-side-qq .icon-lt, .m-side-Totop .icon-lt {
+  width: 100%;
+  height: 54px;
+  background: #64b342;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 4px 4px 0 0;
+  -webkit-transition: top .5s;
+  -moz-transition: top .5s;
+  -ms-transition: top .5s;
+  -o-transition: top .5s;
+  transition: top 0.5s; }
+
+.u-qq-ico {
+  width: 28px;
+  height: 31px;
+  display: inline-block;
+  background: url(images/side-qq.png) 0 0 no-repeat;
+  position: relative;
+  top: 10px; }
+
+.ESQ-box {
+  padding: 22px;
+  display: none;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  position: absolute;
+  right: 0;
+  bottom: 54px;
+  text-align: center; }
+  .ESQ-box h3 {
+    margin: 0;
+    font-size: 14px;
+    color: #27292b;
+    font-weight: bold;
+    padding-bottom: 18px;
+    width: 149px; }
+
+.ESQ-list {
+  padding: 0;
+  margin: 0;
+  list-style: none; }
+  .ESQ-list li {
+    list-style: 0 none; }
+
+.ESQ-block {
+  padding-bottom: 13px;
+  position: relative; }
+  .ESQ-block:hover .call {
+    background: #64b342;
+    color: #fff; }
+    .ESQ-block:hover .call .u-lit-qq {
+      background-position: -34px 0px; }
+  .ESQ-block .call {
+    text-align: center;
+    line-height: 37px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border: 1px solid #64b342;
+    width: 147px;
+    font-size: 14px;
+    color: #64b342; }
+  .ESQ-block .u-lit-qq {
+    width: 17px;
+    height: 20px;
+    display: inline-block;
+    background: url(images/side-qq.png) 0 0 no-repeat;
+    position: relative;
+    top: 4px;
+    background-position: 0 -35px; }
+  .ESQ-block .call-qq {
+    width: 149px;
+    height: 39px;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    filter: alpha(opacity=0); }
+
+.ESQ-block-no .call {
+  color: #979c95; }
+.ESQ-block-no .u-lit-qq {
+  background-position: -20px -35px; }
+.ESQ-block-no:hover .call {
+  background: #979c95;
+  color: #fff;
+  border-color: #979c95; }
+
+.m-side-Totop {
+  position: relative;
+  width: 54px;
+  height: 54px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  text-align: center;
+  cursor: pointer;
+  overflow: hidden; }
+  .m-side-Totop a {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: hidden; }
+  .m-side-Totop .icon-lt {
+    background: #979c95; }
+  .m-side-Totop:hover .txt {
+    top: 0; }
+  .m-side-Totop:hover .icon-lt {
+    top: -54px; }
+  .m-side-Totop .t-ico {
+    width: 24px;
+    height: 26px;
+    background: url(images/m-side-Totop.png) no-repeat;
+    display: inline-block;
+    position: relative;
+    top: 14px; }
+
+/*# sourceMappingURL=qqService.css.map */

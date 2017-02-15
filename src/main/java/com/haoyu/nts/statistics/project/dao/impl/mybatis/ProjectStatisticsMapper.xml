@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.haoyu.nts.statistics.project.dao.impl.mybatis.ProjectStatisticsMapper" >
+	<resultMap type="com.haoyu.nts.statistics.project.entity.ProjectStatistics" id="Baseresult">
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="START_TIME" property="timePeriod.startTime" jdbcType="TIMESTAMP" />
+		<result column="END_TIME" property="timePeriod.endTime" jdbcType="TIMESTAMP" />
+		<result column="TRAIN_NUM" property="trainNum" jdbcType="INTEGER" />
+		<result column="PARTICIPATE_DEPARTMENT_NUM" property="participateDepartmentNum" jdbcType="INTEGER" />
+		<result column="REGISTER_HEADCOUNT" property="registerHeadcount" jdbcType="INTEGER" />
+		<result column="PARTICIPATE_HEADCOUNT" property="participateHeadcount" jdbcType="INTEGER" />
+		<result column="PARTICIPATE_PERCENT" property="participatePercent" jdbcType="DECIMAL" />
+		<result column="PASS_HEADCOUNT" property="passHeadcount" jdbcType="INTEGER" />
+		<result column="PASS_PERCENT" property="passPercent" jdbcType="DECIMAL" />
+		<result column="STATE" property="state" jdbcType="VARCHAR" />
+      	<result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+      	<result column="CITY" property="city" jdbcType="VARCHAR" />
+      	<result column="COUNTIES" property="counties" jdbcType="VARCHAR" />
+      	<result column="COUNTIES_REGIONS_CODE" property="countiesRegionsCode" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="selectByParameter" parameterType="map" resultMap="Baseresult">
+		select 
+			P.ID,
+			P.NAME,
+			(
+				select 
+					count(1)
+				from 
+					TRAIN T
+				where
+					T.IS_DELETED='N' and P.ID = T.PROJECT_ID
+			) TRAIN_NUM,
+			(
+				select
+					count(1)
+				from
+					TRAIN_REGISTER TRR 
+				INNER JOIN TRAIN t on t.ID = TRR.TRAIN_ID and T.IS_DELETED = 'N'
+				where
+					TRR.IS_DELETED = 'N' and T.PROJECT_ID = P.ID
+			) REGISTER_HEADCOUNT,
+			(
+				select
+					count(1)
+				from
+					DEPARTMENT D
+				inner join BASE_USER_VIEW BUV on BUV.DEPT_ID = D.ID
+				inner join TRAIN_REGISTER TR on TR.IS_DELETED = 'N' and TR.USER_ID = BUV.ID
+				where
+					exists (select 1 from TRAIN T where T.IS_DELETED = 'N' and T.ID = TR.TRAIN_ID and T.PROJECT_ID = P.ID)
+			) PARTICIPATE_DEPARTMENT_NUM,
+			(
+				select
+					count(1)
+				from
+					TRAIN_REGISTER TRR
+				inner join BASE_USER_VIEW BUV on BUV.ID = TRR.USER_ID 
+				inner join TRAIN t on t.ID = TRR.TRAIN_ID and T.IS_DELETED = 'N'	
+				where
+					TRR.IS_DELETED = 'N' and T.PROJECT_ID = P.ID and
+				(
+					exists(select 1 from COMMUNITY_RESULT CRT where CRT.IS_DELETED = 'N' and CRT.USER_ID = BUV.ID and CRT.RELATION_ID = T.ID)
+					or exists(select 1 from COURSE_REGISTER CRR where CRR.STATE = 'pass' and CRR.IS_DELETED = 'N' and CRR.USER_ID = BUV.ID
+						and exists(select 1 from COURSE_RELATION CRN where CRN.IS_DELETED = 'N' and CRR.COURSE_ID = CRN.COURSE_ID and CRN.RELATION_ID = T.ID)
+					)
+					or exists(select 1 from WORKSHOP_USER WU where WU.IS_DELETED = 'N' and WU.ROLE = 'student'
+						and exists(select 1 from WORKSHOP_RELATION WR where WR.IS_DELETED = 'N' and WR.WORKSHOP_ID = WU.WORKSHOP_ID and WR.RELATION_ID = T.ID)
+					)
+				)
+			) PARTICIPATE_HEADCOUNT,
+			P.START_TIME START_TIME,
+			P.END_TIME END_TIME,
+			P.CREATE_TIME,
+			(
+				select
+					count(1)
+				from 
+					TRAIN_REGISTER TR
+				where  
+					exists(select 1 from TRAIN T where T.PROJECT_ID = P.ID and T.IS_DELETED = 'N')
+					and TR.IS_DELETED = 'N' and TR.RESULT = 'passed'
+			) PASS_HEADCOUNT
+			<if test="state != null and state != '' ">
+			    ,#{state,jdbcType=VARCHAR} STATE
+			</if>
+		from PROJECT P
+		where 
+			P.IS_DELETED = 'N'
+	    <if test="name != null and name != '' ">
+	    	and P.NAME like '%${name}%'
+	    </if>
+	    <if test="startTimeGreaterThan != null">
+			and P.START_TIME <![CDATA[>]]>  #{startTimeGreaterThan,jdbcType=TIMESTAMP}
+		</if>
+		<if test="startTimeLessThanOrEquals != null">
+			and P.START_TIME <![CDATA[<=]]>  #{startTimeLessThanOrEquals,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTimeGreaterThanOrEquals != null">
+			and P.END_TIME <![CDATA[>=]]>  #{endTimeGreaterThanOrEquals,jdbcType=TIMESTAMP}
+		</if>
+		<if test="endTimeLessThan != null">
+			and P.END_TIME <![CDATA[<]]>  #{endTimeLessThan,jdbcType=TIMESTAMP}
+		</if>
+		<if test="projectId != null and projectId != '' ">
+	    	and P.ID = #{projectId}
+	    </if>
+	</select>
+	
+	<select id="selectAreaByParameter" parameterType="map" resultMap="Baseresult">
+	    select
+			VR2.REGIONS_NAME PROVINCE ,
+			VR1.REGIONS_NAME CITY ,
+			VR.REGIONS_NAME COUNTIES,
+			VR.REGIONS_CODE COUNTIES_REGIONS_CODE,
+			(
+				select
+					count(1)
+				from
+					TRAIN_REGISTER TRR 
+				inner join TRAIN t on t.ID = TRR.TRAIN_ID and T.IS_DELETED = 'N'
+				inner join BASE_USER_VIEW BUV ON TRR.USER_ID = BUV.ID 
+				where
+					TRR.IS_DELETED = 'N' and BUV.COUNTIES = VR.REGIONS_CODE 
+					<if test="projectId != null and projectId != '' ">
+						and T.PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+					</if>
+			) REGISTER_HEADCOUNT,
+			(
+				select
+					count(1)
+				from
+					TRAIN_REGISTER TRR
+				inner join BASE_USER_VIEW BUV on TRR.USER_ID = BUV.ID
+				inner join TRAIN T on t.ID = TRR.TRAIN_ID and T.IS_DELETED = 'N'
+				where
+					BUV.COUNTIES = VR.REGIONS_CODE and T.PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+				and(
+					exists(select 1 from COMMUNITY_RESULT CRT where CRT.IS_DELETED = 'N' and CRT.USER_ID = BUV.ID and CRT.RELATION_ID = T.ID)
+
+					or exists(select 1 from COURSE_REGISTER CRR where CRR.STATE = 'pass' and CRR.IS_DELETED = 'N' and CRR.USER_ID = BUV.ID
+						and exists(select 1 from COURSE_RELATION CRN where CRN.IS_DELETED = 'N' and CRR.COURSE_ID = CRN.COURSE_ID and CRN.RELATION_ID = T.ID)
+					)
+					or exists(select 1 from WORKSHOP_USER WU where WU.IS_DELETED = 'N' and WU.ROLE = 'student'
+						and exists(select 1 from WORKSHOP_RELATION WR where WR.IS_DELETED = 'N' and WR.WORKSHOP_ID = WU.WORKSHOP_ID and WR.RELATION_ID = T.ID)
+					)
+				)
+			) PARTICIPATE_HEADCOUNT,
+			(
+				select
+					count(1)
+				from
+					DEPARTMENT D
+				inner join BASE_USER_VIEW BUV on BUV.DEPT_ID = D.ID
+				inner join TRAIN_REGISTER TR on TR.IS_DELETED = 'N' and TR.USER_ID = BUV.ID
+				where
+					BUV.COUNTIES = VR.REGIONS_CODE
+					and exists (select 1 from TRAIN T where T.IS_DELETED = 'N' and T.ID = TR.TRAIN_ID and T.PROJECT_ID = #{projectId,jdbcType=VARCHAR})
+			) PARTICIPATE_DEPARTMENT_NUM,
+			(
+				select
+					count(1)
+				from
+					TRAIN_REGISTER TR
+				where
+					TR.IS_DELETED = 'N' and TR.RESULT = 'passed'
+					and exists(select 1 from TRAIN T where T.IS_DELETED = 'N' and T.ID = TR.TRAIN_ID <if test="projectId != null and projectId != '' "> and T.PROJECT_ID = #{projectId,jdbcType=VARCHAR} </if>)
+					and exists(select 1 from BASE_USER_VIEW BUV where TR.USER_ID = BUV.ID and BUV.COUNTIES = VR.REGIONS_CODE)
+			) PASS_HEADCOUNT
+	    FROM
+			VIEW_REGIONS VR
+		left join VIEW_REGIONS VR1 on VR1.REGIONS_CODE = VR.PARENT_CODE AND VR1.IS_DELETED = 'N'
+		left join VIEW_REGIONS VR2 on VR2.REGIONS_CODE = VR1.PARENT_CODE AND VR2.IS_DELETED = 'N'
+		where
+			VR.REGIONS_LEVEL = 3 and VR.IS_DELETED = 'N'
+		<if test=" provinceRegionsCode != null and provinceRegionsCode != ''">
+			and VR2.REGIONS_CODE = #{provinceRegionsCode,jdbcType=VARCHAR}
+		</if>
+		<if test=" cityRegionsCode != null and cityRegionsCode != ''">
+			and VR1.REGIONS_CODE = #{cityRegionsCode,jdbcType=VARCHAR}
+		</if>
+		<if test=" countiesRegionsCode != null and countiesRegionsCode != ''">
+			and VR.REGIONS_CODE = #{countiesRegionsCode,jdbcType=VARCHAR}
+		</if>
+		<if test="deptName != null and deptName != ''">
+			and VR.REGIONS_NAME like '%${deptName}%'
+		</if>
+	</select>
+	
+</mapper>

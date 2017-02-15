@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.haoyu.nts.statistics.course.dao.impl.mybatis.CourseStatisticsMapper" >
+	<resultMap type="com.haoyu.nts.statistics.course.entity.CourseStatistics" id="Baseresult">
+	  <id column="ID" property="id" jdbcType="VARCHAR" />
+	  <result column="ORGANIZATION" property="organization" jdbcType="VARCHAR" />
+	  <result column="TYPE" property="type" jdbcType="VARCHAR" />
+      <result column="TRAIN_NUM" property="trainNum" jdbcType="INTEGER" />
+      <result column="TRAIN_HEADCOUNT" property="trainHeadcount" jdbcType="INTEGER" />
+      <result column="PASS_HEADCOUNT" property="passHeadcount" jdbcType="INTEGER" />
+      <result column="PASS_PROPORTION" property="passProportion" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<select id="selectByParameter" parameterType="map" resultMap="Baseresult">
+		select
+			C.ID,
+			C.TITLE,
+			C.ORGANIZATION,
+			C.TYPE,
+			(
+				select 
+					count(CRR.ID)
+				from 
+					COURSE_REGISTER CRR
+				where
+			  		CRR.COURSE_ID = C.ID and CRR.IS_DELETED = 'N' and CRR.STATE = 'pass'
+			) TRAIN_HEADCOUNT,
+			(
+				select 
+					count(CRT.ID)
+				from 
+					COURSE_RESULT CRT
+				where
+					CRT.COURSE_ID = C.ID and CRT.IS_DELETED='N' and CRT.STATE='pass' 
+			) PASS_HEADCOUNT,
+			(
+				(
+					select 
+						count(CRT.ID)
+					from 
+						COURSE_RESULT CRT
+					where
+						CRT.COURSE_ID = C.ID and CRT.IS_DELETED='N' and CRT.STATE='pass' 
+				)
+				/
+				(
+					select 
+						count(CRR.ID)
+					from 
+						COURSE_REGISTER CRR
+					where
+				  		CRR.IS_DELETED = 'N' and CRR.COURSE_ID = C.ID and CRR.STATE = 'pass'
+				)
+			) PASS_PROPORTION,
+			C.CREATE_TIME
+		FROM
+			COURSE C
+		left join COURSE_RELATION CRN on CRN.COURSE_ID = C.ID and CRN.IS_DELETED = 'N' 
+		left join TRAIN T on T.ID = CRN.RELATION_ID and T.IS_DELETED = 'N'
+		left join PROJECT P on P.ID = T.PROJECT_ID and P.IS_DELETED = 'N'
+		where 
+			C.IS_DELETED = 'N'
+		<if test="title != null and title != '' ">
+	    	and C.TITLE like '%${title}%'
+	    </if>		
+	    <if test="projectId != null and projectId != '' ">
+	    	and P.ID= #{projectId,jdbcType=VARCHAR}
+	    </if>
+	    <if test="trainId != null and trainId != '' ">
+	    	and T.ID = #{trainId,jdbcType=VARCHAR}
+	    </if>
+	</select>
+</mapper>

@@ -1,0 +1,1203 @@
+@charset "UTF-8";
+.mis-time-ico, .mis-super-ico, .mis-srh1-ico, .mis-checkbox-ico, .mis-home-ico, .mis-pass-tipico, .mis-edit-tipico, .mis-audit-tipico, .mis-unpass-tipico, .mis-delete-ico1, .mis-radio-ico, .mis-toRight-ico, .mis-tasks-ico, .mis-calendar-ico, .mis-unfold-ico {
+  display: inline-block;
+  position: relative;
+  background: url(images/mis-bg.png) no-repeat; }
+
+.mis-time-ico {
+  width: 13px;
+  height: 13px;
+  background-position: -19px 0; }
+
+.mis-time-ico-h {
+  width: 17px;
+  height: 17px;
+  background-position: 0 0; }
+
+.mis-super-ico {
+  top: 2px;
+  margin-right: 4px;
+  width: 15px;
+  height: 13px;
+  background-position: 0 -19px; }
+
+.mis-srh1-ico {
+  width: 16px;
+  height: 16px;
+  background-position: -160px 0; }
+
+.mis-checkbox-ico {
+  width: 16px;
+  height: 16px;
+  background-position: -52px 0; }
+
+.u-addTopic-multiple .mis-checkbox-ico {
+  width: 19px;
+  height: 16px;
+  background-position: -70px 0; }
+
+.mis-home-ico {
+  top: 1px;
+  margin-right: 6px;
+  width: 13px;
+  height: 12px;
+  background-position: -36px 0; }
+
+.mis-pass-tipico {
+  width: 16px;
+  height: 16px;
+  background-position: -196px 0;
+  margin-right: 10px;
+  top: 3px; }
+
+.mis-edit-tipico {
+  width: 14px;
+  height: 14px;
+  background-position: -214px 0;
+  margin-right: 10px;
+  top: 3px; }
+
+.mis-audit-tipico {
+  width: 16px;
+  height: 16px;
+  background-position: -230px 0;
+  margin-right: 10px;
+  top: 3px; }
+
+.mis-unpass-tipico {
+  width: 16px;
+  height: 16px;
+  background-position: -248px 0;
+  margin-right: 10px;
+  top: 3px; }
+
+.mis-delete-ico1 {
+  top: 2px;
+  margin-right: 4px;
+  width: 12px;
+  height: 12px;
+  background-position: -63px -37px; }
+
+.mis-radio-ico {
+  width: 16px;
+  height: 16px;
+  background-position: -208px -33px; }
+
+.u-addTopic-single .mis-radio-ico {
+  background-position: -190px -33px; }
+
+.mis-toRight-ico {
+  top: 2px;
+  margin: 0 5px;
+  width: 15px;
+  height: 12px;
+  background-position: -94px -37px; }
+
+.mis-tasks-ico {
+  top: 2px;
+  margin-right: 5px;
+  width: 15px;
+  height: 13px;
+  background-position: -111px -36px; }
+
+.mis-calendar-ico {
+  top: 3px;
+  margin-right: 4px;
+  width: 16px;
+  height: 16px;
+  background-position: -126px -2px; }
+
+.mis-unfold-ico {
+  top: 3px;
+  width: 10px;
+  height: 11px;
+  background-position: -266px 0; }
+
+.mis-unfold-ico-o {
+  background-position: -277px 0; }
+
+.mis-srh-ico, .mis-refresh-ico, .mis-export-ico, .mis-import-ico, .mis-add-ico, .mis-delete-ico, .mis-alter-ico, .mis-print-ico, .mis-save-ico, .mis-setting-ico, .mis-look-ico, .mis-upload-ico, .mis-download-ico, .mis-audit-ico, .mis-StMake-ico, .mis-authorization-ico, .mis-pass-ico, .mis-unpass-ico, .mis-play-ico, .mis-top-ico, .mis-untop-ico, .mis-lock-ico, .mis-key-ico, .mis-back-ico, .mis-next-ico, .mis-list-ico, .mis-result-ico, .mis-addFolder-ico, .mis-Gpass-ico {
+  display: inline-block;
+  position: relative;
+  top: 3px;
+  margin-right: 5px;
+  width: 15px;
+  height: 15px;
+  background: url(images/mis-opeartion.png) no-repeat; }
+
+.mis-srh-ico {
+  height: 16px;
+  background-position: 0 0; }
+
+.mis-main-btn .mis-srh-ico,
+.mis-new-btn .mis-srh-ico,
+.mis-inverse-btn:hover .mis-srh-ico,
+.mis-default-btn:hover .mis-srh-ico {
+  background-position: 0 -20px; }
+
+.mis-btn.disabled .mis-srh-ico, .mis-btn.disabled:hover .mis-srh-ico, .mis-btn.disabled:active .mis-srh-ico {
+  background-position: 0 -40px; }
+
+.mis-refresh-ico {
+  width: 16px;
+  background-position: -17px 0; }
+
+.mis-main-btn .mis-refresh-ico,
+.mis-new-btn .mis-refresh-ico,
+.mis-inverse-btn:hover .mis-refresh-ico,
+.mis-default-btn:hover .mis-refresh-ico {
+  background-position: -17px -20px; }
+
+.mis-btn.disabled .mis-refresh-ico, .mis-btn.disabled:hover .mis-refresh-ico, .mis-btn.disabled:active .mis-refresh-ico {
+  background-position: -17px -40px; }
+
+.mis-export-ico {
+  background-position: -35px 0; }
+
+.mis-main-btn .mis-export-ico,
+.mis-new-btn .mis-export-ico,
+.mis-inverse-btn:hover .mis-export-ico,
+.mis-default-btn:hover .mis-export-ico {
+  background-position: -35px -20px; }
+
+.mis-btn.disabled .mis-export-ico, .mis-btn.disabled:hover .mis-export-ico, .mis-btn.disabled:active .mis-export-ico {
+  background-position: -35px -40px; }
+
+.mis-import-ico {
+  background-position: -52px 0; }
+
+.mis-main-btn .mis-import-ico,
+.mis-new-btn .mis-import-ico,
+.mis-inverse-btn:hover .mis-import-ico,
+.mis-default-btn:hover .mis-import-ico {
+  background-position: -52px -20px; }
+
+.mis-btn.disabled .mis-import-ico, .mis-btn.disabled:hover .mis-import-ico, .mis-btn.disabled:active .mis-import-ico {
+  background-position: -52px -40px; }
+
+.mis-add-ico {
+  width: 16px;
+  background-position: -69px 0; }
+
+.mis-main-btn .mis-add-ico,
+.mis-new-btn .mis-add-ico,
+.mis-inverse-btn:hover .mis-add-ico,
+.mis-default-btn:hover .mis-add-ico {
+  background-position: -69px -20px; }
+
+.mis-btn.disabled .mis-add-ico, .mis-btn.disabled:hover .mis-add-ico, .mis-btn.disabled:active .mis-add-ico {
+  background-position: -69px -40px; }
+
+.mis-delete-ico {
+  width: 14px;
+  height: 14px;
+  background-position: -88px 0; }
+
+.mis-main-btn .mis-delete-ico,
+.mis-new-btn .mis-delete-ico,
+.mis-inverse-btn:hover .mis-delete-ico,
+.mis-default-btn:hover .mis-delete-ico {
+  background-position: -88px -20px; }
+
+.mis-btn.disabled .mis-delete-ico, .mis-btn.disabled:hover .mis-delete-ico, .mis-btn.disabled:active .mis-delete-ico {
+  background-position: -88px -40px; }
+
+.mis-alter-ico {
+  top: 2px;
+  width: 8px;
+  height: 13px;
+  background-position: -105px 0; }
+
+.mis-main-btn .mis-alter-ico,
+.mis-new-btn .mis-alter-ico,
+.mis-inverse-btn:hover .mis-alter-ico,
+.mis-default-btn:hover .mis-alter-ico {
+  background-position: -105px -20px; }
+
+.mis-btn.disabled .mis-alter-ico, .mis-btn.disabled:hover .mis-alter-ico, .mis-btn.disabled:active .mis-alter-ico {
+  background-position: -105px -40px; }
+
+.mis-print-ico {
+  height: 14px;
+  background-position: -135px 0; }
+
+.mis-main-btn .mis-print-ico,
+.mis-new-btn .mis-print-ico,
+.mis-inverse-btn:hover .mis-print-ico,
+.mis-default-btn:hover .mis-print-ico {
+  background-position: -135px -20px; }
+
+.mis-btn.disabled .mis-print-ico, .mis-btn.disabled:hover .mis-print-ico, .mis-btn.disabled:active .mis-print-ico {
+  background-position: -135px -40px; }
+
+.mis-save-ico {
+  width: 16px;
+  background-position: -116px 0; }
+
+.mis-main-btn .mis-save-ico,
+.mis-new-btn .mis-save-ico,
+.mis-inverse-btn:hover .mis-save-ico,
+.mis-default-btn:hover .mis-save-ico {
+  background-position: -116px -20px; }
+
+.mis-btn.disabled .mis-save-ico, .mis-btn.disabled:hover .mis-save-ico, .mis-btn.disabled:active .mis-save-ico {
+  background-position: -116px -40px; }
+
+.mis-setting-ico {
+  background-position: -168px 0; }
+
+.mis-main-btn .mis-setting-ico,
+.mis-new-btn .mis-setting-ico,
+.mis-inverse-btn:hover .mis-setting-ico,
+.mis-default-btn:hover .mis-setting-ico {
+  background-position: -168px -20px; }
+
+.mis-btn.disabled .mis-setting-ico, .mis-btn.disabled:hover .mis-setting-ico, .mis-btn.disabled:active .mis-setting-ico {
+  background-position: -168px -40px; }
+
+.mis-look-ico {
+  top: 2px;
+  width: 17px;
+  height: 13px;
+  background-position: -185px 0; }
+
+.mis-main-btn .mis-look-ico,
+.mis-new-btn .mis-look-ico,
+.mis-inverse-btn:hover .mis-look-ico,
+.mis-default-btn:hover .mis-look-ico {
+  background-position: -185px -20px; }
+
+.mis-btn.disabled .mis-look-ico, .mis-btn.disabled:hover .mis-look-ico, .mis-btn.disabled:active .mis-look-ico {
+  background-position: -185px -40px; }
+
+.mis-upload-ico {
+  width: 14px;
+  height: 17px;
+  background-position: -261px 0; }
+
+.mis-main-btn .mis-upload-ico,
+.mis-new-btn .mis-upload-ico,
+.mis-inverse-btn:hover .mis-upload-ico,
+.mis-default-btn:hover .mis-upload-ico {
+  background-position: -261px -20px; }
+
+.mis-btn.disabled .mis-upload-ico, .mis-btn.disabled:hover .mis-upload-ico, .mis-btn.disabled:active .mis-upload-ico {
+  background-position: -261px -40px; }
+
+.mis-download-ico {
+  width: 12px;
+  background-position: -360px 0; }
+
+.mis-main-btn .mis-download-ico,
+.mis-new-btn .mis-download-ico,
+.mis-inverse-btn:hover .mis-download-ico,
+.mis-default-btn:hover .mis-download-ico {
+  background-position: -360px -20px; }
+
+.mis-btn.disabled .mis-download-ico, .mis-btn.disabled:hover .mis-download-ico, .mis-btn.disabled:active .mis-download-ico {
+  background-position: -360px -40px; }
+
+.mis-audit-ico {
+  background-position: -311px 0; }
+
+.mis-main-btn .mis-audit-ico,
+.mis-new-btn .mis-audit-ico,
+.mis-inverse-btn:hover .mis-audit-ico,
+.mis-default-btn:hover .mis-audit-ico {
+  background-position: -311px -20px; }
+
+.mis-btn.disabled .mis-audit-ico, .mis-btn.disabled:hover .mis-audit-ico, .mis-btn.disabled:active .mis-audit-ico {
+  background-position: -311px -40px; }
+
+.mis-StMake-ico {
+  width: 15px;
+  height: 15px;
+  background-position: -327px 0; }
+
+.mis-main-btn .mis-StMake-ico,
+.mis-new-btn .mis-StMake-ico,
+.mis-inverse-btn:hover .mis-StMake-ico,
+.mis-default-btn:hover .mis-StMake-ico {
+  background-position: -327px -20px; }
+
+.mis-btn.disabled .mis-StMake-ico, .mis-btn.disabled:hover .mis-StMake-ico, .mis-btn.disabled:active .mis-StMake-ico {
+  background-position: -327px -40px; }
+
+.mis-authorization-ico {
+  width: 15px;
+  height: 15px;
+  background-position: -344px 0; }
+
+.mis-main-btn .mis-authorization-ico,
+.mis-new-btn .mis-authorization-ico,
+.mis-inverse-btn:hover .mis-authorization-ico,
+.mis-default-btn:hover .mis-authorization-ico {
+  background-position: -344px -20px; }
+
+.mis-btn.disabled .mis-authorization-ico, .mis-btn.disabled:hover .mis-authorization-ico, .mis-btn.disabled:active .mis-authorization-ico {
+  background-position: -344px -40px; }
+
+.mis-pass-ico {
+  top: 4px;
+  width: 17px;
+  height: 17px;
+  background-position: -242px 0; }
+
+.mis-main-btn .mis-pass-ico,
+.mis-new-btn .mis-pass-ico,
+.mis-inverse-btn:hover .mis-pass-ico,
+.mis-default-btn:hover .mis-pass-ico {
+  background-position: -242px -20px; }
+
+.mis-btn.disabled .mis-pass-ico, .mis-btn.disabled:hover .mis-pass-ico, .mis-btn.disabled:active .mis-pass-ico {
+  background-position: -242px -40px; }
+
+.mis-unpass-ico {
+  top: 4px;
+  width: 14px;
+  height: 14px;
+  background-position: -295px 0; }
+
+.mis-main-btn .mis-unpass-ico,
+.mis-new-btn .mis-unpass-ico,
+.mis-inverse-btn:hover .mis-unpass-ico,
+.mis-default-btn:hover .mis-unpass-ico {
+  background-position: -295px -20px; }
+
+.mis-btn.disabled .mis-unpass-ico, .mis-btn.disabled:hover .mis-unpass-ico, .mis-btn.disabled:active .mis-unpass-ico {
+  background-position: -295px -40px; }
+
+.mis-play-ico {
+  width: 18px;
+  height: 16px;
+  background-position: -374px 0; }
+
+.mis-main-btn .mis-play-ico,
+.mis-new-btn .mis-play-ico,
+.mis-inverse-btn:hover .mis-play-ico,
+.mis-default-btn:hover .mis-play-ico {
+  background-position: -374px -20px; }
+
+.mis-btn.disabled .mis-play-ico, .mis-btn.disabled:hover .mis-play-ico, .mis-btn.disabled:active .mis-play-ico {
+  background-position: -374px -40px; }
+
+.mis-top-ico {
+  width: 18px;
+  height: 16px;
+  background-position: -394px 0; }
+
+.mis-main-btn .mis-top-ico,
+.mis-new-btn .mis-top-ico,
+.mis-inverse-btn:hover .mis-top-ico,
+.mis-default-btn:hover .mis-top-ico {
+  background-position: -394px -20px; }
+
+.mis-btn.disabled .mis-top-ico, .mis-btn.disabled:hover .mis-top-ico, .mis-btn.disabled:active .mis-top-ico {
+  background-position: -394px -40px; }
+
+.mis-untop-ico {
+  width: 18px;
+  height: 16px;
+  background-position: -414px 0; }
+
+.mis-main-btn .mis-untop-ico,
+.mis-new-btn .mis-untop-ico,
+.mis-inverse-btn:hover .mis-untop-ico,
+.mis-default-btn:hover .mis-untop-ico {
+  background-position: -414px -20px; }
+
+.mis-btn.disabled .mis-untop-ico, .mis-btn.disabled:hover .mis-untop-ico, .mis-btn.disabled:active .mis-untop-ico {
+  background-position: -414px -40px; }
+
+.mis-lock-ico {
+  width: 14px;
+  height: 16px;
+  background-position: -434px 0; }
+
+.mis-main-btn .mis-lock-ico,
+.mis-new-btn .mis-lock-ico,
+.mis-inverse-btn:hover .mis-lock-ico,
+.mis-default-btn:hover .mis-lock-ico {
+  background-position: -434px -20px; }
+
+.mis-btn.disabled .mis-lock-ico, .mis-btn.disabled:hover .mis-lock-ico, .mis-btn.disabled:active .mis-lock-ico {
+  background-position: -434px -40px; }
+
+.mis-key-ico {
+  width: 16px;
+  height: 16px;
+  background-position: -450px 0; }
+
+.mis-main-btn .mis-key-ico,
+.mis-new-btn .mis-key-ico,
+.mis-inverse-btn:hover .mis-key-ico,
+.mis-default-btn:hover .mis-key-ico {
+  background-position: -450px -20px; }
+
+.mis-btn.disabled .mis-key-ico, .mis-btn.disabled:hover .mis-key-ico, .mis-btn.disabled:active .mis-key-ico {
+  background-position: -450px -40px; }
+
+.mis-back-ico {
+  width: 16px;
+  height: 16px;
+  background-position: -468px 0; }
+
+.mis-main-btn .mis-back-ico,
+.mis-new-btn .mis-back-ico,
+.mis-inverse-btn:hover .mis-back-ico,
+.mis-default-btn:hover .mis-back-ico {
+  background-position: -468px -20px; }
+
+.mis-btn.disabled .mis-back-ico, .mis-btn.disabled:hover .mis-back-ico, .mis-btn.disabled:active .mis-back-ico {
+  background-position: -468px -40px; }
+
+.mis-next-ico {
+  width: 16px;
+  height: 16px;
+  background-position: -522px 0; }
+
+.mis-main-btn .mis-next-ico,
+.mis-new-btn .mis-next-ico,
+.mis-inverse-btn:hover .mis-next-ico,
+.mis-default-btn:hover .mis-next-ico {
+  background-position: -522px -20px; }
+
+.mis-btn.disabled .mis-next-ico, .mis-btn.disabled:hover .mis-next-ico, .mis-btn.disabled:active .mis-next-ico {
+  background-position: -522px -40px; }
+
+.mis-list-ico {
+  width: 16px;
+  height: 16px;
+  background-position: -542px 0; }
+
+.mis-main-btn .mis-list-ico,
+.mis-new-btn .mis-list-ico,
+.mis-inverse-btn:hover .mis-list-ico,
+.mis-default-btn:hover .mis-list-ico {
+  background-position: -542px -20px; }
+
+.mis-btn.disabled .mis-list-ico, .mis-btn.disabled:hover .mis-list-ico, .mis-btn.disabled:active .mis-list-ico {
+  background-position: -542px -40px; }
+
+.mis-result-ico {
+  width: 15px;
+  height: 16px;
+  background-position: -486px 0; }
+
+.mis-main-btn .mis-result-ico,
+.mis-new-btn .mis-result-ico,
+.mis-inverse-btn:hover .mis-result-ico,
+.mis-default-btn:hover .mis-result-ico {
+  background-position: -486px -20px; }
+
+.mis-btn.disabled .mis-result-ico, .mis-btn.disabled:hover .mis-result-ico, .mis-btn.disabled:active .mis-result-ico {
+  background-position: -486px -40px; }
+
+.mis-addFolder-ico {
+  width: 14px;
+  height: 14px;
+  background-position: -504px 0; }
+
+.mis-main-btn .mis-addFolder-ico,
+.mis-new-btn .mis-addFolder-ico,
+.mis-inverse-btn:hover .mis-addFolder-ico,
+.mis-default-btn:hover .mis-addFolder-ico {
+  background-position: -504px -20px; }
+
+.mis-btn.disabled .mis-addFolder-ico, .mis-btn.disabled:hover .mis-addFolder-ico, .mis-btn.disabled:active .mis-addFolder-ico {
+  background-position: -504px -40px; }
+
+.mis-Gpass-ico {
+  width: 17px;
+  height: 17px;
+  background-position: -242px -40px;
+  margin-right: 10px;
+  top: 3px; }
+
+.mis-sfile-ico {
+  display: inline-block;
+  position: relative;
+  top: 2px;
+  width: 15px;
+  height: 17px;
+  background: url(images/s-file-type.png) no-repeat; }
+  .mis-sfile-ico.word {
+    background-position: 0 0; }
+  .mis-sfile-ico.excel {
+    background-position: -17px 0; }
+  .mis-sfile-ico.ppt {
+    background-position: -34px 0; }
+  .mis-sfile-ico.video {
+    background-position: -51px 0; }
+  .mis-sfile-ico.pdf {
+    background-position: -68px 0; }
+  .mis-sfile-ico.other {
+    background-position: -85px 0; }
+  .mis-sfile-ico.pic {
+    background-position: -102px 0; }
+  .mis-sfile-ico.zip {
+    background-position: -119px 0; }
+  .mis-sfile-ico.txt {
+    background-position: -136px 0; }
+
+.mis-file-ico {
+  display: inline-block;
+  width: 34px;
+  height: 40px;
+  background: url(images/ub-file-ico.png) no-repeat; }
+  .mis-file-ico.word {
+    background-position: 0 0; }
+  .mis-file-ico.excel {
+    background-position: 0 -40px; }
+  .mis-file-ico.ppt {
+    background-position: 0 -80px; }
+  .mis-file-ico.video {
+    background-position: 0 -120px; }
+  .mis-file-ico.pdf {
+    background-position: 0 -160px; }
+  .mis-file-ico.other {
+    background-position: 0 -200px; }
+  .mis-file-ico.zip {
+    background-position: 0 -240px; }
+
+.u-rhombus-ico, .u-smallList-ico {
+  display: inline-block;
+  position: relative;
+  background: url(images/mis-addActive.png) no-repeat; }
+
+.u-rhombus-ico {
+  width: 29px;
+  height: 29px;
+  background-position: -31px 0px;
+  line-height: 29px;
+  text-align: center;
+  color: #fff; }
+
+.m-add-step .step.yet .u-rhombus-ico {
+  background-position: 0px 00px; }
+
+.m-add-step .step.in .u-rhombus-ico {
+  background-position: -62px 0px; }
+
+.u-smallList-ico {
+  width: 7px;
+  height: 7px;
+  background-position: -99px 0px; }
+
+.u-addTopic-qa:hover .u-smallList-ico {
+  background-position: -108px 0px; }
+
+.mis-btn {
+  display: inline-block;
+  padding: 0 22px;
+  height: 30px;
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 3px;
+  line-height: 30px;
+  outline: none;
+  box-sizing: content-box;
+  font-size: 12px;
+  font-family: "微软雅黑"; }
+  .mis-btn.disabled {
+    cursor: default; }
+    .mis-btn.disabled, .mis-btn.disabled:hover, .mis-btn.disabled:active {
+      background-color: #fff !important;
+      background-image: none !important;
+      border-color: #e0e0e0 !important;
+      color: #cecece !important; }
+
+.mis-default-btn {
+  background-color: #f2f2f2;
+  border: 1px solid #c9c9c9;
+  color: #3499e8; }
+  .mis-default-btn:hover {
+    background-color: #3499e8;
+    border-color: #3499e8;
+    color: #fff; }
+  .mis-default-btn:active {
+    background-color: #1d8de5;
+    border-color: #1d8de5; }
+
+.mis-main-btn {
+  background-color: #3499e8;
+  border-color: #3499e8;
+  color: #fff;
+  border: 1px solid #3499e8;
+  color: #fff; }
+  .mis-main-btn:hover {
+    background-color: #4ba5eb;
+    border-color: #4ba5eb;
+    color: #fff; }
+  .mis-main-btn:active {
+    background-color: #1d8de5;
+    border-color: #1d8de5; }
+
+.mis-inverse-btn {
+  background-color: #fff;
+  border: 1px solid #79bcf0;
+  color: #3499e8; }
+  .mis-inverse-btn:hover {
+    background-color: #3499e8;
+    border-color: #3499e8;
+    color: #fff; }
+
+.mis-new-btn {
+  background-color: #67ab22;
+  border-color: #67ab22;
+  color: #fff; }
+  .mis-new-btn:hover {
+    background-color: #74c026;
+    border-color: #74c026;
+    color: #fff; }
+  .mis-new-btn:active {
+    background-color: #5a961e;
+    border-color: #5a961e; }
+
+/*
+
+=================
+sass base style
+=================
+
+*/
+.f-cb, .m-add-step, .m-addTopic-opt, .m-topic-module .t-opt, .m-continuous-ipt {
+  *zoom: 1; }
+  .f-cb:before, .f-cb:after, .m-add-step:before, .m-addTopic-opt:before, .m-topic-module .t-opt:before, .m-continuous-ipt:before, .m-add-step:after, .m-addTopic-opt:after, .m-topic-module .t-opt:after, .m-continuous-ipt:after {
+    content: "";
+    display: table;
+    font: 0/0 a; }
+  .f-cb:after, .m-add-step:after, .m-addTopic-opt:after, .m-topic-module .t-opt:after, .m-continuous-ipt:after {
+    clear: both; }
+
+.pr {
+  position: relative; }
+
+.formError {
+  color: red; }
+
+.fl {
+  display: inline-block;
+  *display: inline;
+  float: left; }
+
+.fr {
+  display: inline-block;
+  *display: inline;
+  float: right; }
+
+.g-addTopic-wrap {
+  background: #fff; }
+
+.g-add-step {
+  padding: 25px 25px;
+  background-color: #f2f2f2; }
+
+.m-add-step {
+  min-height: 30px;
+  line-height: 30px; }
+  .m-add-step.num2 .step {
+    width: 80%; }
+  .m-add-step.num2 .last {
+    width: 20%; }
+  .m-add-step.num3 .step {
+    width: 42%; }
+  .m-add-step.num3 .step {
+    width: 42%; }
+  .m-add-step.num5 .step {
+    width: 21%; }
+  .m-add-step.num5 .last {
+    width: 16%; }
+  .m-add-step .step {
+    display: inline-block;
+    *display: inline;
+    float: left;
+    position: relative;
+    width: 28%;
+    font-size: 14px; }
+    .m-add-step .step .u-rhombus-ico {
+      font-style: normal; }
+    .m-add-step .step.last {
+      width: 15%; }
+      .m-add-step .step.last .line {
+        display: none; }
+    .m-add-step .step.yet a {
+      cursor: pointer; }
+      .m-add-step .step.yet a:hover {
+        color: #fb9a4e; }
+    .m-add-step .step.yet .line {
+      background-color: #fb9a4e; }
+    .m-add-step .step.in a {
+      font-weight: 700;
+      color: #ff7001; }
+      .m-add-step .step.in a:hover {
+        color: #ff7001; }
+  .m-add-step .line {
+    position: absolute;
+    top: 14px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #b9b9b9; }
+  .m-add-step a {
+    display: inline-block;
+    position: relative;
+    cursor: default;
+    text-align: center;
+    background-color: #f2f2f2;
+    color: #888a8f; }
+    .m-add-step a:hover {
+      color: #888a8f; }
+  .m-add-step .ico {
+    display: inline-block;
+    padding: 0 10px; }
+
+.g-addTopic-box {
+  padding: 0 38px; }
+
+.m-big-titInfo {
+  margin-bottom: 25px;
+  padding-top: 28px;
+  line-height: 35px; }
+  .m-big-titInfo .title {
+    margin-bottom: 18px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 300;
+    color: #3f3f3f; }
+  .m-big-titInfo .text {
+    font-size: 16px;
+    color: #a4a4a4; }
+
+.m-addTopic-opt {
+  position: relative;
+  margin-bottom: 30px;
+  padding: 12px 24px;
+  background-color: #f2f2f2;
+  font-size: 14px; }
+  .m-addTopic-opt.isntFirst .hint {
+    display: none; }
+  .m-addTopic-opt .lx {
+    display: inline-block;
+    *display: inline;
+    float: left;
+    line-height: 30px;
+    margin-right: 15px;
+    font-weight: 700;
+    color: #3f3f3f; }
+  .m-addTopic-opt a {
+    display: inline-block;
+    *display: inline;
+    float: left;
+    margin-right: 30px;
+    padding: 0 22px 0 26px;
+    height: 28px;
+    background-color: #fff;
+    border: 1px solid #3499e8;
+    line-height: 28px;
+    color: #898a8b; }
+    .m-addTopic-opt a i {
+      top: 2px;
+      margin-right: 6px; }
+    .m-addTopic-opt a:hover {
+      background-color: #3499e8;
+      color: #fff; }
+    .m-addTopic-opt a.last-child {
+      margin-right: 0; }
+  .m-addTopic-opt .hint {
+    position: absolute;
+    top: 38px;
+    left: -22px;
+    width: 72px;
+    height: 160px;
+    background: url(images/add-new-hint.png) no-repeat; }
+
+.u-addTopic-qa .u-smallList-ico {
+  top: -2px !important; }
+
+.g-topicList {
+  margin-bottom: 20px; }
+  .g-topicList .topic-item {
+    background-color: #fff; }
+  .g-topicList > .ui-state-highlight {
+    height: 150px; }
+
+.m-topic-module em {
+  font-style: normal; }
+
+.m-topic-module {
+  overflow: hidden;
+  position: relative;
+  padding: 25px 18px 52px;
+  border: 1px solid transparent;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  color: #40414a; }
+  .m-topic-module:hover, .m-topic-module.z-crt {
+    border-color: #3499e8;
+    box-shadow: 2px -2px 8px #b4d9f7; }
+    .m-topic-module:hover .t-opt, .m-topic-module.z-crt .t-opt {
+      opacity: 1;
+      filter: alpha(opacity=100); }
+    .m-topic-module:hover .nextAddNew, .m-topic-module.z-crt .nextAddNew {
+      left: 18px; }
+    .m-topic-module:hover .btn-block, .m-topic-module.z-crt .btn-block {
+      right: 18px; }
+  .m-topic-module .title {
+    margin-bottom: 18px;
+    line-height: 30px;
+    font-size: 16px;
+    font-weight: normal; }
+  .m-topic-module .t-opt {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 12px 0;
+    width: 100%;
+    height: 30px;
+    border-top: 1px solid #e5e5e5;
+    -webkit-transition: opacity 0.3s;
+    -moz-transition: opacity 0.3s;
+    -ms-transition: opacity 0.3s;
+    -o-transition: opacity 0.3s;
+    transition: opacity 0.3s;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    line-height: 30px;
+    font-size: 14px; }
+  .m-topic-module .nextAddNew {
+    position: absolute;
+    top: 15px;
+    left: -450px;
+    padding-top: 3px;
+    -webkit-transition: left 0.3s;
+    -moz-transition: left 0.3s;
+    -ms-transition: left 0.3s;
+    -o-transition: left 0.3s;
+    transition: left 0.3s;
+    line-height: 24px;
+    font-size: 12px; }
+    .m-topic-module .nextAddNew span {
+      display: inline-block;
+      *display: inline;
+      float: left; }
+    .m-topic-module .nextAddNew a {
+      display: inline-block;
+      *display: inline;
+      float: left;
+      margin-left: 8px;
+      padding: 0 6px;
+      height: 22px;
+      line-height: 22px;
+      border: 1px solid transparent;
+      -webkit-transition: all 0.3s;
+      -moz-transition: all 0.3s;
+      -ms-transition: all 0.3s;
+      -o-transition: all 0.3s;
+      transition: all 0.3s;
+      color: #3499e8; }
+      .m-topic-module .nextAddNew a:hover {
+        background-color: #3499e8;
+        border-color: #3499e8;
+        color: #fff; }
+  .m-topic-module .btn-block {
+    position: absolute;
+    top: 12px;
+    right: -200px;
+    -webkit-transition: right 0.3s;
+    -moz-transition: right 0.3s;
+    -ms-transition: right 0.3s;
+    -o-transition: right 0.3s;
+    transition: right 0.3s; }
+    .m-topic-module .btn-block .btn {
+      margin-left: 8px;
+      padding: 0;
+      width: 70px;
+      height: 30px;
+      line-height: 30px;
+      border: none;
+      -webkit-border-radius: 0;
+      -moz-border-radius: 0;
+      border-radius: 0;
+      display: inline-block;
+      text-align: center; }
+    .m-topic-module .btn-block .alter, .m-topic-module .btn-block .confirm {
+      background-color: #60b531; }
+      .m-topic-module .btn-block .alter:hover, .m-topic-module .btn-block .confirm:hover {
+        background-color: #6bc937; }
+    .m-topic-module .btn-block .delete {
+      background-color: #da732e; }
+      .m-topic-module .btn-block .delete:hover {
+        background-color: #de8244; }
+  .m-topic-module .mis-ipt-mod {
+    margin-bottom: 20px; }
+
+.m-question-lst {
+  font-size: 14px; }
+  .m-question-lst li {
+    margin-bottom: 16px;
+    line-height: 24px; }
+  .m-question-lst .mis-radio-tick strong, .m-question-lst .mis-checkbox-tick strong {
+    margin-right: 5px; }
+  .m-question-lst .mis-radio-tick .ico, .m-question-lst .mis-radio-tick input, .m-question-lst .mis-checkbox-tick .ico, .m-question-lst .mis-checkbox-tick input {
+    top: 3px;
+    margin-top: 0; }
+
+.mis-ipt-mod .size-txt {
+  text-align: right; }
+  .mis-ipt-mod .size-txt span {
+    margin-left: 20px;
+    color: #9d9d9e; }
+
+@keyframes littlerun {
+  from {
+    top: -50px; }
+  to {
+    top: 0px; } }
+@keyframes littlerunTwo {
+  from {
+    top: 0px; }
+  to {
+    top: -1000px; } }
+.m-addTopic-module {
+  position: relative;
+  margin-top: 60px;
+  margin-bottom: 30px;
+  padding: 25px 18px 42px;
+  background-color: #e2f0fc;
+  border: 1px solid #3499e8;
+  box-shadow: 2px -2px 8px white;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px; }
+  .m-addTopic-module .konw-point {
+    position: absolute;
+    right: 18px;
+    top: 6px;
+    overflow: hidden;
+    z-index: 99999;
+    text-align: right; }
+    .m-addTopic-module .konw-point .u-little-icon {
+      width: 18px;
+      height: 20px;
+      display: inline-block;
+      background: url(images/mis-addActive.png) -123px 0px no-repeat;
+      cursor: pointer;
+      margin-right: 15px; }
+      .m-addTopic-module .konw-point .u-little-icon:hover {
+        background-position: -124px -109px; }
+    .m-addTopic-module .konw-point .u-button {
+      background: #3499e8;
+      line-height: 22px;
+      color: #fff;
+      font-size: 10px;
+      position: relative;
+      top: 0px;
+      width: 60px;
+      cursor: pointer;
+      text-align: center;
+      left: 50%;
+      margin-left: -30px;
+      margin-bottom: 4px;
+      margin-top: 5px; }
+      .m-addTopic-module .konw-point .u-button:hover {
+        background: #4fa7eb; }
+    .m-addTopic-module .konw-point .button-alert {
+      padding: 3px 7px;
+      border: 1px solid #dad9d9;
+      max-width: 180px;
+      text-align: center;
+      display: block;
+      background: #fff;
+      text-align: center;
+      min-width: 80px;
+      position: relative;
+      top: 0;
+      border-radius: 3px;
+      -moz-animation: littlerun 0.3s linear;
+      -webkit-animation: littlerun 0.3s linear;
+      -o-animation: littlerun 0.3s linear;
+      -ms-animation: littlerun 0.3s linear;
+      animation: littlerun 0.3s linear;
+      -webkit-animation-fill-mode: both;
+      -moz-animation-fill-mode: both;
+      -ms-animation-fill-mode: both;
+      -o-animation-fill-mode: both;
+      animation-fill-mode: both; }
+      .m-addTopic-module .konw-point .button-alert .alert-txt {
+        font-size: 12px;
+        line-height: 20px; }
+      .m-addTopic-module .konw-point .button-alert .arrow {
+        position: absolute;
+        top: -11px;
+        right: 17px;
+        width: 18px;
+        height: 14px;
+        background: url(images/mis-addActive.png) -145px 0px no-repeat; }
+    .m-addTopic-module .konw-point .button-alertTwo {
+      -moz-animation: littlerunTwo 5s linear;
+      -webkit-animation: littlerunTwo 5s linear;
+      -o-animation: littlerunTwo 5s linear;
+      -ms-animation: littlerunTwo 5s linear;
+      animation: littlerunTwo 5s linear;
+      -webkit-animation-fill-mode: both;
+      -moz-animation-fill-mode: both;
+      -ms-animation-fill-mode: both;
+      -o-animation-fill-mode: both;
+      animation-fill-mode: both; }
+  .m-addTopic-module .t-opt {
+    position: absolute;
+    top: -30px;
+    right: 18px;
+    text-align: right; }
+    .m-addTopic-module .t-opt .btn {
+      margin-left: 8px;
+      padding: 0;
+      width: 56px;
+      height: 30px;
+      line-height: 30px;
+      border: none;
+      -webkit-border-radius: 0;
+      -moz-border-radius: 0;
+      border-radius: 0;
+      display: inline-block;
+      text-align: center; }
+    .m-addTopic-module .t-opt .confirm {
+      background-color: #60b531; }
+      .m-addTopic-module .t-opt .confirm:hover {
+        background-color: #6bc937; }
+      .m-addTopic-module .t-opt .confirm .u-alter-ico {
+        margin-right: 0; }
+    .m-addTopic-module .t-opt .delete {
+      background-color: #da732e; }
+      .m-addTopic-module .t-opt .delete:hover {
+        background-color: #de8244; }
+      .m-addTopic-module .t-opt .delete .u-delete-ico {
+        margin-right: 0; }
+  .m-addTopic-module .section {
+    margin-bottom: 25px; }
+  .m-addTopic-module .title, .m-addTopic-module .title1 {
+    margin-bottom: 15px;
+    font-size: 14px;
+    font-weight: 700; }
+    .m-addTopic-module .title em, .m-addTopic-module .title1 em {
+      margin-right: 3px;
+      color: red; }
+  .m-addTopic-module .title1 {
+    position: relative;
+    padding-left: 12px; }
+    .m-addTopic-module .title1:before {
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      margin-top: -3px;
+      width: 4px;
+      height: 4px;
+      border: 1px solid #3499e8;
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      border-radius: 50%;
+      content: ""; }
+  .m-addTopic-module .m-addQs-btn {
+    padding-left: 30px; }
+  .m-addTopic-module .confirm-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background-color: #3499e8;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    text-align: center;
+    line-height: 30px;
+    color: #fff; }
+    .m-addTopic-module .confirm-line:hover {
+      background-color: #59abec; }
+    .m-addTopic-module .confirm-line i {
+      margin-right: 5px; }
+
+.m-addTopic-q {
+  position: relative;
+  padding: 15px 100px 15px 30px;
+  min-height: 36px;
+  line-height: 36px;
+  cursor: move; }
+  .m-addTopic-q:hover {
+    background-color: #cbe5f9; }
+  .m-addTopic-q .cl {
+    position: absolute;
+    top: 16px;
+    left: 0;
+    padding-left: 8px;
+    width: 22px;
+    height: 36px; }
+  .m-addTopic-q .cr {
+    position: absolute;
+    top: 15px;
+    right: 0;
+    width: 85px;
+    text-align: center; }
+  .m-addTopic-q .m-radio-tick, .m-addTopic-q .m-checkbox-tick {
+    height: 36px; }
+
+.mis-checkbox-tick strong {
+  display: inline-block; }
+
+.m-addTopic-module .txt-chosse-number {
+  color: #999999;
+  font-size: 14px; }
+  .m-addTopic-module .txt-chosse-number .txt {
+    margin-left: 10px; }
+  .m-addTopic-module .txt-chosse-number .mis-ipt {
+    width: 150px;
+    display: inline-block; }
+
+.m-continuous-ipt {
+  line-height: 34px;
+  color: #3f3f3f; }
+  .m-continuous-ipt .c-txt, .m-continuous-ipt .mis-ipt-mod, .m-continuous-ipt .space {
+    display: inline-block;
+    *display: inline;
+    float: left;
+    margin-right: 10px; }
+  .m-continuous-ipt .space {
+    width: 2px;
+    min-height: 34px; }
+
+.g-addAns-case {
+  display: none; }
+
+.cloneWrap {
+  display: none; }
+
+.ui-state-default {
+  cursor: move; }
+
+.ui-state-highlight {
+  margin-bottom: 22px;
+  height: 42px;
+  background-color: #ebf5fd;
+  border: 1px dotted #bddef8; }
+
+.m-addQs-btn {
+  padding-left: 112px;
+  line-height: 40px; }
+  .m-addQs-btn .add {
+    color: #3499e8; }
+    .m-addQs-btn .add:hover {
+      color: #62b0ed; }
+
+.m-addtopicQ-lst .m-addTopic-q .cr a {
+  color: #a9a9a9; }
+  .m-addtopicQ-lst .m-addTopic-q .cr a .mis-delete-ico {
+    background-position: -88px -40px; }
+  .m-addtopicQ-lst .m-addTopic-q .cr a:hover {
+    color: #3499e8; }
+    .m-addtopicQ-lst .m-addTopic-q .cr a:hover .mis-delete-ico {
+      background-position: -88px 0; }
+
+/*# sourceMappingURL=mis-addActive.css.map */

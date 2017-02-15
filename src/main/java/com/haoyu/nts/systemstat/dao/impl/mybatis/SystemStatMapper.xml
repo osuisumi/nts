@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haoyu.nts.systemstat.dao.impl.mybatis.SystemStatMapper">
+	<resultMap id="BASE_RESULT_MAP" type="com.haoyu.nts.systemstat.entity.SystemStat">
+		<result column="PROJECT_NUM" property="projectNum" jdbcType="INTEGER" />
+		<result column="TRAIN_NUM" property="trainNum" jdbcType="INTEGER"/>
+		<result column="USER_TEACHER_NUM" property="userTeacherNum" jdbcType="INTEGER"/>
+		<result column="STUDENT_NUM" property="studentNum" jdbcType="INTEGER"/>
+		<result column="TRAIN_REGISTER_NUM" property="trainRegisterNum" jdbcType="INTEGER"/>
+		<result column="JOINED_TRAIN_STUDENT_NUM" property="joinedTrainStudentNum" jdbcType="INTEGER"/>
+	</resultMap>
+	<select id="select" resultMap="BASE_RESULT_MAP" parameterType="java.util.Map">
+		select * from(
+		(select count(id) PROJECT_NUM from PROJECT P where P.IS_DELETED = 'N') T1  
+		join (select count(id) TRAIN_NUM from TRAIN T where T.IS_DELETED = 'N')T2 on 1=1
+		join (select count(id) USER_TEACHER_NUM from USER_TEACHER where IS_DELETED = 'N') T3 on 1=1
+		join (select count(id) STUDENT_NUM from BASE_USER_VIEW BUV where BUV.ROLE_CODE = 2) T4 on 1=1
+		join (select count(id) TRAIN_REGISTER_NUM from TRAIN_REGISTER where IS_DELETED = 'N') T5 on 1=1
+		join (select count(USER_ID) JOINED_TRAIN_STUDENT_NUM from(select	USER_ID from TRAIN_REGISTER where USER_ID IN (select BUV. ID from	BASE_USER_VIEW BUV where BUV.ROLE_CODE = 2) group by USER_ID) TMP) T6 on 1=1
+		)
+	</select>
+</mapper>

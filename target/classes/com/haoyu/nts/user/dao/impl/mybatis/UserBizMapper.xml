@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.haoyu.nts.user.dao.impl.mybatis.UserBizMapper">
+	<resultMap id="UserMap" type="com.haoyu.nts.user.entity.User">
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="REAL_NAME" property="realName" jdbcType="VARCHAR" />	
+		<result column="AVATAR" property="avatar" jdbcType="VARCHAR" />	
+		<result column="DEPT_NAME" property="deptName" jdbcType="VARCHAR" />	
+		<result column="PAPERWORK_NO" property="paperworkNo" jdbcType="VARCHAR" />	
+		<result column="AREA_ID" property="areaId" jdbcType="VARCHAR" />	
+		<result column="CREATE_TIME" property="createTime" jdbcType="INTEGER" />	
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR" />	
+		<result column="SUBJECT" property="subject" jdbcType="VARCHAR" />
+		<result column="STAGE" property="stage" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="select" parameterType="map" resultMap="UserMap">
+		select ID, REAL_NAME,AVATAR, DEPT_NAME, PAPERWORK_NO, AREA_ID, USER_NAME,SUBJECT,STAGE
+		from BASE_USER_VIEW
+		<trim prefix="WHERE" prefixOverrides="AND|OR">  
+			<if test="relationId != null and relationId != ''">
+				and DEPT_ID = #{relationId,jdbcType=VARCHAR}
+			</if>
+			<if test="realName != null and realName != ''">
+				and REAL_NAME like  '${realName}%'
+			</if>
+			<if test="roleCode != null and roleCode != ''">
+				and ROLE_CODE = #{roleCode,jdbcType=VARCHAR}
+			</if>
+			<if test="paperworkNos != null">
+				and PAPERWORK_NO in
+				<foreach collection="paperworkNos" open="(" close=")" item="item" separator=",">
+					#{item}
+				</foreach>
+			</if>
+			<if test="userNames != null and userNames != ''">
+				and USER_NAME in 
+				<foreach collection="userNames" open="(" close=")" item="item" separator=",">
+					#{item}
+				</foreach>
+			</if>
+			<if test="userIds != null">
+				and USER_ID in 
+				<foreach collection="userIds" open="(" close=")" item="item" separator=",">
+					#{item}
+				</foreach>
+			</if>
+		</trim>
+	</select>
+	
+	<select id="count" resultType="int" parameterType="map">
+		select count(id) from BASE_USER_VIEW
+		<trim prefix="WHERE" prefixOverrides="AND|OR">  
+			<if test="realName != null and realName != ''">
+				and REAL_NAME like  '${realName}%'
+			</if>
+			<if test="roleCode != null and roleCode != ''">
+				and ROLE_CODE = #{roleCode,jdbcType=VARCHAR}
+			</if>
+			<if test="paperworkNo != null">
+				and PAPERWORK_NO = #{paperworkNo,jdbcType=VARCHAR}
+			</if>
+			<if test="userName != null">
+				and USER_NAME = #{userName,jdbcType=VARCHAR}
+			</if>
+		</trim>
+	</select>
+	
+	<select id="selectForImport" resultMap="UserMap" parameterType="map">
+		select ID,USER_NAME,REAL_NAME, PAPERWORK_NO
+		from BASE_USER_VIEW BUV
+		where EXISTS (select 1 from TEMP_IMPORT TI where TI.FIELD_1 = BUV.REAL_NAME and TI.FIELD_2 = BUV.PAPERWORK_NO and TI.PID = #{pid,jdbcType=VARCHAR})
+		<if test="roleCode != null and roleCode != ''">
+			and BUV.ROLE_CODE = #{roleCode,jdbcType=VARCHAR}
+		</if>
+		<if test="hasRegisterTrain != null and hasRegisterTrain != ''">
+			and EXISTS(select 1 from TRAIN_REGISTER TR where #{hasRegisterTrain,jdbcType=VARCHAR} = TR.TRAIN_ID and  TR.IS_DELETED = 'N' and TR.USER_ID = BUV.ID)
+		</if>
+	</select>
+	
+	<select id="selectForImportByUserName" resultMap="UserMap" parameterType="map">
+		select ID,USER_NAME,REAL_NAME,PAPERWORK_NO
+		from BASE_USER_VIEW BUV
+		where EXISTS(select 1 from TEMP_IMPORT TI where TI.FIELD_1 = BUV.USER_NAME and TI.PID = #{pid,jdbcType=VARCHAR})
+	</select>
+		
+</mapper>

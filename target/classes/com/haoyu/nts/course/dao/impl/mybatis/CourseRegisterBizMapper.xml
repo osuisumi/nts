@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haoyu.nts.course.dao.impl.mybatis.CourseRegisterBizMapper" >
+  <resultMap id="TrainRegisterResultMap" type="com.haoyu.nts.course.entity.CourseRegisterExtend" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="STATE" property="state" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR"/>
+    <result column="CLASS_ID" property="clazz.id" jdbcType="VARCHAR" />
+	<result column="NAME" property="clazz.name" jdbcType="VARCHAR" />
+    <association property="userInfo" javaType="com.haoyu.sip.user.entity.UserInfo">
+    	<id column="BUV_ID" property="id" jdbcType="VARCHAR"/>
+    	<result column="REAL_NAME" property="realName" jdbcType="VARCHAR"/>
+    	<result column="PAPERWORK_NO" property="paperworkNo" jdbcType="VARCHAR"/>
+    	<result column="DEPT_NAME" property="department.deptName" jdbcType="VARCHAR"/>
+    </association>
+	<association property="course" javaType="com.haoyu.ncts.course.entity.Course">
+		<id column="COURSE_ID" property="id" jdbcType="VARCHAR"/>
+		<result column="COURSE_TITLE" property="title" jdbcType="VARCHAR"/>
+		<result column="COURSE_IMAGE" property="image" jdbcType="VARCHAR"/>
+		<result column="COURSE_STUDY_HOURS" property="studyHours" jdbcType="VARCHAR" />
+		<result column="START_TIME" property="timePeriod.startTime" jdbcType="VARCHAR" />
+		<result column="END_TIME" property="timePeriod.endTime" jdbcType="VARCHAR" />
+	</association>
+  </resultMap>
+  <resultMap id="CourseResultMap" type="com.haoyu.ncts.course.entity.Course" >
+  	<result column="COURSE_ID" property="id" jdbcType="VARCHAR"/>
+  	<result column="CODE" property="code" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CR.ID,CR.CREATE_TIME,CR.STATE,BUV.ID BUV_ID,BUV.REAL_NAME,BUV.PAPERWORK_NO,BUV.DEPT_NAME,
+    C.ID COURSE_ID,C.TITLE COURSE_TITLE,C.IMAGE COURSE_IMAGE,C.STUDY_HOURS COURSE_STUDY_HOURS, C.START_TIME, C.END_TIME,
+    CR.CLASS_ID, CS.NAME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="TrainRegisterResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List"/>
+    from COURSE_REGISTER CR
+    join BASE_USER_VIEW BUV on CR.USER_ID = BUV.ID
+    join COURSE C on CR.COURSE_ID = C.ID and C.IS_DELETED = 'N'
+    left join CLASS CS on CS.ID = CR.CLASS_ID and C.IS_DELETED = 'N'
+    where CR.IS_DELETED='N'
+  </select>
+  <select id="selectByParameter" resultMap="TrainRegisterResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List"/>
+    from COURSE_REGISTER CR
+    join BASE_USER_VIEW BUV on CR.USER_ID = BUV.ID
+    join COURSE C on CR.COURSE_ID = C.ID and C.IS_DELETED = 'N'
+    left join CLASS CS on CS.ID = CR.CLASS_ID and C.IS_DELETED = 'N'
+    where CR.IS_DELETED='N'
+    <if test="courseId != null and courseId != ''">
+    	and CR.COURSE_ID = #{courseId,jdbcType=VARCHAR}
+    </if>
+    <if test="realName != null and realName != ''">
+    	and BUV.REAL_NAME like CONCAT('%',CONCAT(#{realName,jdbcType=VARCHAR},'%') )
+    </if>
+    <if test="deptName != null and deptName != ''">
+    	and BUV.DEPT_NAME like CONCAT('%',CONCAT(#{deptName,jdbcType=VARCHAR},'%'))
+    </if>
+    <if test="state != null and state != ''">
+    	and CR.STATE = #{state,jdbcType=VARCHAR}
+    </if>
+    <if test="minCreateTime != null and minCreateTime != ''">
+    	and CR.CREATE_TIME &gt;= #{minCreateTime,jdbcType=BIGINT}
+    </if>
+    <if test="maxCreateTime != null and maxCreateTime != ''">
+    	and CR.CREATE_TIME &lt;= #{maxCreateTime,jdbcType=BIGINT}
+    </if>
+  </select>
+  <insert id="insertByTrainId" parameterType="map">
+  	insert into COURSE_REGISTER(ID,COURSE_ID,RELATION_ID,USER_ID,STATE,CREATOR,CREATE_TIME,IS_DELETED,VERSION)
+  	select ${courseRegister.id}, #{courseRegister.course.id}, #{courseRegister.relation.id}, USER_ID, #{courseRegister.state}, #{courseRegister.creator.id}, 
+  	#{courseRegister.createTime, jdbcType=DECIMAL}, #{courseRegister.isDeleted, jdbcType=CHAR}, #{courseRegister.version, jdbcType=DECIMAL}
+	from TRAIN_REGISTER TR
+	where TR.IS_DELETED = 'N'
+	and TR.TRAIN_ID = #{trainId, jdbcType=VARCHAR}
+	and TR.STATE = #{state, jdbcType=VARCHAR}
+	<if test="stage != null and stage != ''">
+		and exists (select 1 from BASE_USER_VIEW where ID = TR.USER_ID and STAGE = #{stage,jdbcType=VARCHAR})
+	</if>
+	and not exists (select 1 from COURSE_REGISTER CR where TR.USER_ID = CR.USER_ID and CR.COURSE_ID = #{courseRegister.course.id} and CR.RELATION_ID = #{courseRegister.relation.id})
+  </insert>
+</mapper>

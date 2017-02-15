@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.haoyu.nts.account.dao.impl.mybatis.AccountBizMapper">
+	<resultMap id="AccountResultMap" type="com.haoyu.sip.user.entity.Account">
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+		<association property="user" javaType="com.haoyu.sip.user.entity.UserInfo">
+			<id property="id" column="ID" />
+			<result property="realName" column="REAL_NAME" />
+			<result property="paperworkNo" column="PAPERWORK_NO" />
+			<result property="stage" column="STAGE" />
+			<result property="subject" column="SUBJECT" />
+			<association property="department" javaType="com.haoyu.sip.user.entity.Department">
+				<result property="deptName" column="DEPT_NAME" />
+			</association>
+		</association>
+		<collection property="roles" ofType="com.haoyu.sip.auth.entity.AuthRole">
+			<id column="ROLE_ID" property="id" />
+			<result column="ROLE_NAME" property="name" />
+		</collection>
+	</resultMap>
+	
+	<resultMap type="com.haoyu.sip.user.entity.Account" id="SimpleMap">
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+		<result column="USER_ID" property="user.id" />
+		<association property="user" javaType="com.haoyu.sip.user.entity.UserInfo">
+			<id property="id" column="USER_ID" />
+			<result property="realName" column="REAL_NAME" />
+			<result property="paperworkNo" column="PAPERWORK_NO" />
+		</association>
+		<collection property="roles" ofType="com.haoyu.sip.auth.entity.AuthRole">
+			<id column="ROLE_ID" property="id" />
+			<result column="ROLE_NAME" property="name" />
+		</collection>
+	</resultMap>
+	<select id="selectFromBaseUserView" resultMap="AccountResultMap" parameterType="java.util.Map">
+		select BUV.ID,BUV.USER_NAME,BUV.REAL_NAME,BUV.DEPT_NAME,TMP.ROLE_ID,TMP.ROLE_NAME,BUV.ID AS CREATE_TIME, 
+		BUV.PAPERWORK_NO, BUV.STAGE, BUV.SUBJECT
+		from BASE_USER_VIEW BUV
+		left join
+		(select
+		AR.ID ROLE_ID,
+		AUR.USER_ID USER_ID,
+		AR.NAME ROLE_NAME
+		from
+		AUTH_USER_ROLE AUR
+		inner join AUTH_ROLE AR on AR.ID = AUR.ROLE_ID and AR.IS_DELETED='N' ) TMP
+		on TMP.USER_ID = BUV.ID
+		<where>
+			<if test="userId != null and userId != ''">
+				and BUV.ID = #{userId,jdbcType=VARCHAR}
+			</if>
+			<if test="realName != null and realName != ''" >
+				 and BUV.REAL_NAME like '%${realName}%' 
+			</if>
+			<if test="deptName != null and deptName != ''" >
+				 and BUV.DEPT_NAME like '%${deptName}%' 
+			</if>
+			<if test="roleId != null and roleId != ''">
+				 and TMP.ROLE_ID = #{roleId,jdbcType=VARCHAR}
+			</if>
+			<if test="roleCode != null and roleCode != ''">
+				and BUV.ROLE_CODE = #{roleCode,jdbcType=VARCHAR}
+			</if>
+			<if test="userName != null and userName != ''">
+				and BUV.USER_NAME  like concat(concat('%',#{userName}),'%')
+			</if>
+		</where>
+	</select>
+	
+	<select id="select" resultMap="SimpleMap"  parameterType="map">
+		select A.ID,A.USER_NAME,A.CREATE_TIME,A.USER_ID,
+		(select BUV.REAL_NAME from BASE_USER_VIEW BUV where BUV.ID = A.USER_ID) REAL_NAME,
+		(select BUV.ID from BASE_USER_VIEW BUV where BUV.ID = A.USER_ID) USER_ID,
+		(select BUV.PAPERWORK_NO from BASE_USER_VIEW BUV where BUV.ID = A.USER_ID) PAPERWORK_NO
+		<if test="getRole != null and getRole != ''">
+			,TMP.ROLE_ID,TMP.ROLE_NAME
+		</if>
+			from ACCOUNT A
+			<if test="getRole != null and getRole != ''">
+			left join
+			(select
+			AR.ID ROLE_ID,
+			AUR.USER_ID USER_ID,
+			AR.NAME ROLE_NAME
+			from
+			AUTH_USER_ROLE AUR
+			inner join AUTH_ROLE AR on AR.ID = AUR.ROLE_ID and AR.IS_DELETED='N' ) TMP
+			on TMP.USER_ID = A.USER_ID
+		</if>
+		where A.IS_DELETED = 'N'
+		<if test="userNames != null">
+			and A.USER_NAME in
+			<foreach collection="userNames" open="(" close=")" item="item" separator=",">
+				#{item,jdbcType=VARCHAR}
+			</foreach>
+		</if>
+		<if test="userIds != null">
+			and A.USER_ID in
+			<foreach collection="userIds" open="(" close=")" item="item" separator=",">
+				#{item,jdbcType=VARCHAR}
+			</foreach>
+		</if>
+	</select>
+</mapper>

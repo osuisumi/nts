@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haoyu.nts.workshop.dao.impl.mybatis.DepartmentWorkshopStatMapper">
+	<resultMap id="BaseResultMap" type="com.haoyu.nts.workshop.stat.DepartmentWorkshopStat">
+		<id column="ID" property="department.id" jdbcType="VARCHAR" />
+		<result column="DEPT_NAME" property="department.deptName" jdbcType="VARCHAR" />
+		<result column="PARENT_DEPT_NAME" property="department.parentDepartment.deptName" jdbcType="VARCHAR" />
+		<result column="GRAND_PARENT_DEPT_NAME" property="department.parentDepartment.parentDepartment.deptName" jdbcType="VARCHAR" />
+
+		<result column="MEMBER_NUM" property="memberNum" jdbcType="INTEGER" />
+		<result column="STUDENT_NUM" property="studentNum" jdbcType="INTEGER" />
+		<result column="ACTIVITY_NUM" property="activityNum" jdbcType="INTEGER" />
+		<result column="RESOURCE_NUM" property="resourceNum" jdbcType="INTEGER" />
+		<result column="QUESTION_NUM" property="questionNum" jdbcType="INTEGER" />
+		<result column="ANSWER_NUM" property="answerNum" jdbcType="INTEGER" />
+		<result column="COMMENTS_NUM" property="commentsNum" jdbcType="INTEGER" />
+		<result column="SOLUTION_NUM" property="solutionNum" jdbcType="INTEGER" />
+		<result column="ANNOUNCEMENT_NUM" property="announcementNum" jdbcType="INTEGER" />
+		<result column="QUALIFIED_STUDENT_NUM" property="qualifiedStudentNum" jdbcType="INTEGER" />
+		<result column="COMPLETE_ACTIVITY_NUM" property="completeActivityNum" jdbcType="INTEGER" />
+		<result column="COMPLETE_VIDEO_NUM" property="completeVideoNum" jdbcType="INTEGER" />
+		<result column="COMPLETE_DISCUSSION_NUM" property="completeDiscussionNum" jdbcType="INTEGER" />
+		<result column="COMPLETE_LESSON_PLAN_NUM" property="completeLessonPlanNum" jdbcType="INTEGER" />
+		<result column="COMPLETE_LCEC_NUM" property="completeLcecNum" jdbcType="INTEGER" />
+		<result column="COMPLETE_TEST_NUM" property="completeTestNum" jdbcType="INTEGER" />
+	</resultMap>
+
+	<select id="school" resultMap="BaseResultMap" parameterType="map">
+		select D.ID,D.DEPT_NAME
+		<!-- 人数 -->
+		,(select count(WU.ID) from WORKSHOP_USER WU join BASE_USER_VIEW BUV on BUV.ID = WU.USER_ID where BUV.DEPT_ID = D.ID and  WU.IS_DELETED = 'N' and WU.STATE = 'passed' and WU.ROLE = 'member' and WU.WORKSHOP_ID = #{workshopId}) MEMBER_NUM
+		,(select count(WU.ID) from WORKSHOP_USER WU join BASE_USER_VIEW BUV on BUV.ID = WU.USER_ID where BUV.DEPT_ID = D.ID and WU.IS_DELETED = 'N' and WU.STATE = 'passed' and WU.ROLE = 'student' and WU.WORKSHOP_ID = #{workshopId}) STUDENT_NUM
+		,(select count(WUR.ID) from WORKSHOP_USER_RESULT WUR join WORKSHOP_USER WU on WU.IS_DELETED='N' and WU.ID = WUR.WORKSHOP_USER_ID and WU.ROLE = 'student' and WU.STATE = 'passed' join WORKSHOP W on W.ID = WU.WORKSHOP_ID join BASE_USER_VIEW BUV on BUV.ID = WU.USER_ID where BUV.DEPT_ID = D.ID and WU.WORKSHOP_ID = #{workshopId} and WUR.POINT <![CDATA[>=]]>
+				W.QUALIFIED_POINT and (WUR.WORKSHOP_RESULT = 'excellent' or WUR.WORKSHOP_RESULT = 'qualified')) QUALIFIED_STUDENT_NUM
+		<!-- 内容数 -->
+		,(select count(FQ.ID) from FAQ_QUESTION FQ join BASE_USER_VIEW BUV on BUV.ID = FQ.CREATOR where BUV.DEPT_ID = D.ID and FQ.IS_DELETED = 'N' and FQ.RELATION_ID = #{workshopId}) QUESTION_NUM
+		,(select count(FA.ID) from FAQ_ANSWER FA join FAQ_QUESTION FQ on FA.QUESTION_ID = FQ.ID and FQ.IS_DELETED = 'N' join BASE_USER_VIEW BUV on BUV.ID = FA.CREATOR where BUV.DEPT_ID = D.ID and FA.IS_DELETED = 'N' and FQ.RELATION_ID = #{workshopId}) ANSWER_NUM
+		,(select count(FR.ID) from FILE_RESOURCE FR join FILE_RELATION FR1 on FR1.FILE_ID = FR.ID and FR.IS_DELETED = 'N' and FR.IS_FOLDER='N' join BASE_USER_VIEW BUV on BUV.ID = FR.CREATOR where BUV.DEPT_ID = D.ID and FR1.RELATION_ID = #{workshopId}) RESOURCE_NUM
+		,(select count(C.ID) from COMMENTS C join BASE_USER_VIEW BUV on BUV.ID = C.CREATOR where BUV.DEPT_ID = D.ID and C.IS_DELETED = 'N' and C.RELATION_ID = #{workshopId}) COMMENTS_NUM
+		,(select count(A.ID) from ANNOUNCEMENT A join BASE_USER_VIEW BUV on BUV.ID = A.CREATOR join ANNOUNCEMENT_RELATION AR on A.ID = AR.ANNOUNCEMENT_ID and A.IS_DELETED = 'N' where BUV.DEPT_ID = D.ID and AR.RELATION_ID = #{workshopId}) ANNOUNCEMENT_NUM
+		<!-- 完成情况 -->
+		,(select count(AR.ID) from ACTIVITY_RESULT AR join BASE_USER_VIEW BUV on BUV.ID = AR.CREATOR join ACTIVITY A on A.ID = AR.ACTIVITY_ID and A.IS_DELETED = 'N' and AR.IS_DELETED = 'N' where BUV.DEPT_ID = D.ID and AR.RELATION_ID = #{workshopId} and AR.STATE = 'complete') COMPLETE_ACTIVITY_NUM
+		,(select count(AR.ID) from ACTIVITY_RESULT AR join BASE_USER_VIEW BUV on BUV.ID = AR.CREATOR join ACTIVITY A on A.ID = AR.ACTIVITY_ID and A.IS_DELETED = 'N' and AR.IS_DELETED = 'N' and A.TYPE='video' where BUV.DEPT_ID = D.ID and AR.RELATION_ID = #{workshopId} and AR.STATE = 'complete' ) COMPLETE_VIDEO_NUM
+		,(select count(AR.ID) from ACTIVITY_RESULT AR join BASE_USER_VIEW BUV on BUV.ID = AR.CREATOR join ACTIVITY A on A.ID = AR.ACTIVITY_ID and A.IS_DELETED = 'N' and AR.IS_DELETED = 'N' and A.TYPE='discussion' where BUV.DEPT_ID = D.ID and AR.RELATION_ID = #{workshopId} and AR.STATE = 'complete' ) COMPLETE_DISCUSSION_NUM
+		,(select count(AR.ID) from ACTIVITY_RESULT AR join BASE_USER_VIEW BUV on BUV.ID = AR.CREATOR join ACTIVITY A on A.ID = AR.ACTIVITY_ID and A.IS_DELETED = 'N' and AR.IS_DELETED = 'N' and A.TYPE='lessonPlan' where BUV.DEPT_ID = D.ID and AR.RELATION_ID = #{workshopId} and AR.STATE = 'complete' ) COMPLETE_LESSON_PLAN_NUM
+		,(select count(AR.ID) from ACTIVITY_RESULT AR join BASE_USER_VIEW BUV on BUV.ID = AR.CREATOR join ACTIVITY A on A.ID = AR.ACTIVITY_ID and A.IS_DELETED = 'N' and AR.IS_DELETED = 'N' and A.TYPE='lcec' where BUV.DEPT_ID = D.ID and AR.RELATION_ID = #{workshopId} and AR.STATE = 'complete' ) COMPLETE_LCEC_NUM
+		,(select count(AR.ID) from ACTIVITY_RESULT AR join BASE_USER_VIEW BUV on BUV.ID = AR.CREATOR join ACTIVITY A on A.ID = AR.ACTIVITY_ID and A.IS_DELETED = 'N' and AR.IS_DELETED = 'N' and A.TYPE='test' where BUV.DEPT_ID = D.ID and AR.RELATION_ID = #{workshopId} and AR.STATE = 'complete' ) COMPLETE_TEST_NUM
+		from DEPARTMENT D	
+		<where>
+			<if test="deptName != null and deptName != ''">
+				and D.DEPT_NAME like concat(concat('%',#{deptName}),'%')
+			</if>
+		</where>
+
+	</select>
+	
+	<select id="area" resultMap="BaseResultMap" parameterType="map">
+		select D.ID,D.REGIONS_NAME AS DEPT_NAME, VRP.REGIONS_NAME AS PARENT_DEPT_NAME,VRGP.REGIONS_NAME AS GRAND_PARENT_DEPT_NAME
+		<!-- 人数 -->
+		,(select count(WU.ID) from WORKSHOP_USER WU join BASE_USER_VIEW BUV on BUV.ID = WU.USER_ID where BUV.COUNTIES = D.REGIONS_CODE and  WU.IS_DELETED = 'N' and WU.STATE = 'passed' and WU.ROLE = 'member' and WU.WORKSHOP_ID = #{workshopId}) MEMBER_NUM
+		,(select count(WU.ID) from WORKSHOP_USER WU join BASE_USER_VIEW BUV on BUV.ID = WU.USER_ID where BUV.COUNTIES = D.REGIONS_CODE and WU.IS_DELETED = 'N' and WU.STATE = 'passed' and WU.ROLE = 'student' and WU.WORKSHOP_ID = #{workshopId}) STUDENT_NUM
+		,(select count(WUR.ID) from WORKSHOP_USER_RESULT WUR join WORKSHOP_USER WU on WU.IS_DELETED='N' and WU.ID = WUR.WORKSHOP_USER_ID and WU.ROLE = 'student' and WU.STATE = 'passed' join WORKSHOP W on W.ID = WU.WORKSHOP_ID join BASE_USER_VIEW BUV on BUV.ID = WU.USER_ID where BUV.COUNTIES = D.REGIONS_CODE and WU.WORKSHOP_ID = #{workshopId} and WUR.POINT <![CDATA[>=]]>
+				W.QUALIFIED_POINT and (WUR.WORKSHOP_RESULT = 'excellent' or WUR.WORKSHOP_RESULT = 'qualified')) QUALIFIED_STUDENT_NUM
+		<!-- 内容数 -->
+		,(select count(FQ.ID) from FAQ_QUESTION FQ join BASE_USER_VIEW BUV on BUV.ID = FQ.CREATOR where BUV.COUNTIES = D.REGIONS_CODE and FQ.IS_DELETED = 'N' and FQ.RELATION_ID = #{workshopId}) QUESTION_NUM
+		,(select count(FA.ID) from FAQ_ANSWER FA join FAQ_QUESTION FQ on FA.QUESTION_ID = FQ.ID and FQ.IS_DELETED = 'N' join BASE_USER_VIEW BUV on BUV.ID = FA.CREATOR where BUV.COUNTIES = D.REGIONS_CODE and FA.IS_DELETED = 'N' and FQ.RELATION_ID = #{workshopId}) ANSWER_NUM
+		,(select count(FR.ID) from FILE_RESOURCE FR join FILE_RELATION FR1 on FR1.FILE_ID = FR.ID and FR.IS_DELETED = 'N' and FR.IS_FOLDER='N' join BASE_USER_VIEW BUV on BUV.ID = FR.CREATOR where BUV.COUNTIES = D.REGIONS_CODE and FR1.RELATION_ID = #{workshopId}) RESOURCE_NUM
+		,(select count(C.ID) from COMMENTS C join BASE_USER_VIEW BUV on BUV.ID = C.CREATOR where BUV.COUNTIES = D.REGIONS_CODE and C.IS_DELETED = 'N' and C.RELATION_ID = #{workshopId}) COMMENTS_NUM
+		,(select count(A.ID) from ANNOUNCEMENT A join BASE_USER_VIEW BUV on BUV.ID = A.CREATOR join ANNOUNCEMENT_RELATION AR on A.ID = AR.ANNOUNCEMENT_ID and A.IS_DELETED = 'N' where BUV.COUNTIES = D.REGIONS_CODE and AR.RELATION_ID = #{workshopId}) ANNOUNCEMENT_NUM
+		<!-- 完成情况 -->
+		,(select count(AR.ID) from ACTIVITY_RESULT AR join BASE_USER_VIEW BUV on BUV.ID = AR.CREATOR join ACTIVITY A on A.ID = AR.ACTIVITY_ID and A.IS_DELETED = 'N' and AR.IS_DELETED = 'N' where BUV.COUNTIES = D.REGIONS_CODE and AR.RELATION_ID = #{workshopId} and AR.STATE = 'complete') COMPLETE_ACTIVITY_NUM
+		,(select count(AR.ID) from ACTIVITY_RESULT AR join BASE_USER_VIEW BUV on BUV.ID = AR.CREATOR join ACTIVITY A on A.ID = AR.ACTIVITY_ID and A.IS_DELETED = 'N' and AR.IS_DELETED = 'N' and A.TYPE='video' where BUV.COUNTIES = D.REGIONS_CODE and AR.RELATION_ID = #{workshopId} and AR.STATE = 'complete' ) COMPLETE_VIDEO_NUM
+		,(select count(AR.ID) from ACTIVITY_RESULT AR join BASE_USER_VIEW BUV on BUV.ID = AR.CREATOR join ACTIVITY A on A.ID = AR.ACTIVITY_ID and A.IS_DELETED = 'N' and AR.IS_DELETED = 'N' and A.TYPE='discussion' where BUV.COUNTIES = D.REGIONS_CODE and AR.RELATION_ID = #{workshopId} and AR.STATE = 'complete' ) COMPLETE_DISCUSSION_NUM
+		,(select count(AR.ID) from ACTIVITY_RESULT AR join BASE_USER_VIEW BUV on BUV.ID = AR.CREATOR join ACTIVITY A on A.ID = AR.ACTIVITY_ID and A.IS_DELETED = 'N' and AR.IS_DELETED = 'N' and A.TYPE='lessonPlan' where BUV.COUNTIES = D.REGIONS_CODE and AR.RELATION_ID = #{workshopId} and AR.STATE = 'complete' ) COMPLETE_LESSON_PLAN_NUM
+		,(select count(AR.ID) from ACTIVITY_RESULT AR join BASE_USER_VIEW BUV on BUV.ID = AR.CREATOR join ACTIVITY A on A.ID = AR.ACTIVITY_ID and A.IS_DELETED = 'N' and AR.IS_DELETED = 'N' and A.TYPE='lcec' where BUV.COUNTIES = D.REGIONS_CODE and AR.RELATION_ID = #{workshopId} and AR.STATE = 'complete' ) COMPLETE_LCEC_NUM
+		,(select count(AR.ID) from ACTIVITY_RESULT AR join BASE_USER_VIEW BUV on BUV.ID = AR.CREATOR join ACTIVITY A on A.ID = AR.ACTIVITY_ID and A.IS_DELETED = 'N' and AR.IS_DELETED = 'N' and A.TYPE='test' where BUV.COUNTIES = D.REGIONS_CODE and AR.RELATION_ID = #{workshopId} and AR.STATE = 'complete' ) COMPLETE_TEST_NUM
+		from VIEW_REGIONS D
+		join VIEW_REGIONS VRP on D.PARENT_CODE = VRP.REGIONS_CODE
+		join VIEW_REGIONS VRGP on VRGP.REGIONS_CODE = VRP.PARENT_CODE
+		where D.REGIONS_LEVEL = 3
+		<if test="deptName != null and deptName != ''">
+			and D.REGIONS_NAME like concat(concat('%',#{deptName,jdbcType=VARCHAR}),'%')
+		</if>	
+	
+	
+	</select>
+
+</mapper>
